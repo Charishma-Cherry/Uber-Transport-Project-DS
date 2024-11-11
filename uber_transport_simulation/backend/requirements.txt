@@ -4,3 +4,14 @@ djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 PyJWT==2.9.0
 sqlparse==0.5.1
+
+# Additional Packages
+django-cors-headers==3.14.0       # CORS headers for handling frontend-backend requests
+pillow==10.0.0                    # For image handling
+
+# Optional: Environment variable management
+django-environ==0.10.0            # For secure management of environment variables
+
+# Database Driver 
+psycopg2==2.9.6                   # PostgreSQL database driver
+mysqlclient==2.1.3                # MySQL database driver
