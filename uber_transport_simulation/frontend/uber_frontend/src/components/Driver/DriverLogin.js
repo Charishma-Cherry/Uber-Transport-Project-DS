@@ -13,8 +13,6 @@ function DriverLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { loginDriver } = useContext(AuthContext);
-  // const [username, setUsername] = useState(''); // State to hold the username input
-  // const [password, setPassword] = useState(''); // State to hold the password input
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,15 +25,6 @@ function DriverLogin() {
 
     try {
     const response = await loginDriver(formData.email, formData.password)
-
-    // Extract token, user_id, and driver_id from the response
-    // const { token, user_id, driver_id } = response.data;
-
-    // // Store necessary details in localStorage
-    // localStorage.setItem('token', token);
-    // localStorage.setItem('user', JSON.stringify({ id: user_id }));
-    // localStorage.setItem('driver_id', driver_id);
-    // localStorage.setItem('userType', "driver");
 
     navigate(`/driver/${response.data.driver_id}/profile`);
     } catch (err) {
