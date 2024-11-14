@@ -21,14 +21,16 @@ class UserViewSet(viewsets.ModelViewSet):
             user.profile, created  = UserProfile.objects.update_or_create(
             user=user,
             defaults={
+                'name' : request.data.get('username'),
                 'phone_number': request.data.get('phone_number'),
                 'address': request.data.get('address'),
                 'city': request.data.get('city'),
                 'state': request.data.get('state'),
                 'zip_code': request.data.get('zip_code'),
-                'customer_id': user.username
+                'user_type': "customer"
             }
             )
+            user.profile.full_clean()
             user.profile.save()
             return Response({'user_id': user.id}, status=status.HTTP_201_CREATED)
         except Exception as e:
