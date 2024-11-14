@@ -63,19 +63,19 @@ function DriverSignup() {
       if (introductionMedia) {
         formDataToSend.append('introduction_media', introductionMedia);
       }
-
+      console.log(introductionMedia);
       const response = await api.post(endpoints.DRIVER_SIGNUP, formDataToSend);
-    // Extract token, user_id, and driver_id from the response
-    const { token, driver_id } = response.data;
+      // Extract token, user_id, and driver_id from the response
+      const { token, driver_id } = response.data;
 
-    console.log(response.data)
-    // Store necessary details in localStorage
-    localStorage.setItem('token', token);
-    localStorage.setItem('driver_id', driver_id);
-    localStorage.setItem('userType', "driver");
+      console.log(response.data)
+      // Store necessary details in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('driver_id', driver_id);
+      localStorage.setItem('userType', "driver");
 
-    const userData = { "id": driver_id, "first_name" : formData.first_name  };
-    localStorage.setItem('user', JSON.stringify(userData)); // Store `first_name`
+      const userData = { "id": driver_id, "first_name" : formData.first_name  };
+      localStorage.setItem('user', JSON.stringify(userData)); // Store `first_name`
    
       alert("Driver Signup Successful!");
 

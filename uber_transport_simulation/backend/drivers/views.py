@@ -11,6 +11,7 @@ from django.db import IntegrityError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny
 
 
 class DriverSignupView(APIView):

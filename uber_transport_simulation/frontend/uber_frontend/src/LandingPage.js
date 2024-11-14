@@ -2,6 +2,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import '../src/components/User/Signup';
+import '../src/components/User/Login';
 
 function LandingPage() {
     return (
@@ -9,11 +11,17 @@ function LandingPage() {
             <div className="content">
                 <h1 className="landing-header">Go anywhere with Uber!</h1>
                 <div className="landing-options">
+                    <Link to="/user/signup" className="landing-option">
+                        New Rider? Sign up and Join us! <span className="arrow">→</span>
+                    </Link>
+                    <Link to="/user/login" className="landing-option">
+                        Already a Rider? Sign in! <span className="arrow">→</span>
+                    </Link>
                     <Link to="/driver/signup" className="landing-option">
-                        Want to be part of Uber family? Sign up and come join us! <span className="arrow">→</span>
+                        New Driver? Sign up and Join the Fam! <span className="arrow">→</span>
                     </Link>
                     <Link to="/driver/login" className="landing-option">
-                        Already with us? Sign in! <span className="arrow">→</span>
+                        Already a Driver? Sign in to ride. <span className="arrow">→</span>
                     </Link>
                 </div>
             </div>

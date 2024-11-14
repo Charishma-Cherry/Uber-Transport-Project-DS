@@ -20,6 +20,8 @@ axiosInstance.interceptors.request.use(
       // If token exists, set the Authorization header
       config.headers['Authorization'] = `Token ${token}`;
     }
+     
+    config.headers['Content-Type'] = 'multipart/form-data';
     return config; // Return the modified config
   },
   (error) => Promise.reject(error) // Handle errors in request configuration
