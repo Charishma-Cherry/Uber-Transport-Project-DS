@@ -22,6 +22,12 @@ export const endpoints = {
   signup: '/customers/signup/',
   profile: '/customers/profile/',
   updateProfile: '/customers/update_profile/',
+  customerBillingHistory: '/billing/history/customer/',
 };
+
+export const getBillingHistoryForCustomer = (customerId) => {
+  return api.get(`${endpoints.customerBillingHistory}${customerId}/`);
+};
+
 
 export default api;

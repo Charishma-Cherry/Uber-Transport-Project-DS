@@ -9,6 +9,7 @@ import Signup from './components/User/Signup';
 import Profile from './components/User/Profile';
 import Dashboard from './components/User/Dashboard';
 import PrivateRoute from './components/User/PrivateRoute';
+import BillingHistory from './components/Billing/BillingHistory';
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
             <PrivateRoute>
               {console.log('Rendering Profile route')}
               <Profile />
+            </PrivateRoute>
+          } />
+          <Route path="/user/billing-history" element={
+            <PrivateRoute>
+              <BillingHistory />
             </PrivateRoute>
           } />
         </Routes>

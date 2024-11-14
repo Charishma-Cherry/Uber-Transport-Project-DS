@@ -6,8 +6,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('users.urls')),  # Includes user routes
-    # Add additional routes for rides, billing, and drivers as needed
+    path('api/', include('users.urls')), 
+    path('api/', include('billing.urls')),
+    path('api/drivers/', include('drivers.urls')),
+    # path('api/', include('drivers.urls')), 
+    
 ]
 
 # Serve media files in development
