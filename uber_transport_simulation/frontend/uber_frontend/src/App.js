@@ -27,7 +27,6 @@ function App() {
           } />
           <Route path="/user/profile" element={
             <PrivateRoute>
-              {console.log('Rendering Profile route')}
               <Profile />
             </PrivateRoute>
           } />
