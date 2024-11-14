@@ -1,3 +1,125 @@
-from django.shortcuts import render
+# drivers/views.py
 
-# Create your views here.
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import DriverSignupSerializer, DriverProfileSerializer, DriverSerializer
+from .models import Driver
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from django.db import IntegrityError
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.parsers import MultiPartParser, FormParser
+
+
+class DriverSignupView(APIView):
+    def post(self, request):
+        print(request.data)
+        serializer = DriverSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                print(request.data)
+                driver = serializer.save()
+                
+                # Create a token for the new driver
+                token, created = Token.objects.get_or_create(user=driver.user)
+                
+                # Return response with token, driver_id, and driver profile data
+                return Response({
+                    "message": "Driver registered successfully!",
+                    "token": token.key,
+                    "driver_id": driver.driver_id,  # Use driver_id from the Driver model
+                    "driver_data": DriverProfileSerializer(driver, context={'request': request}).data
+                }, status=status.HTTP_201_CREATED)
+            except IntegrityError:
+                return Response(
+                    {"error": "A user with this email already exists."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DriverProfileView(APIView):
+    def get(self, request, driver_id):
+        try:
+            driver = Driver.objects.get(driver_id=driver_id)  # Retrieve by driver_id instead of id
+            serializer = DriverProfileSerializer(driver, context={'request': request})
+            return Response(serializer.data)
+        except Driver.DoesNotExist:
+            return Response({"error": "Driver not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class DriverLoginView(APIView):
+    """
+    View for driver login, which returns an authentication token upon successful login.
+    """
+
+    def post(self, request):
+        # Extract email and password from the request data
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        # Authenticate the driver
+        driver = authenticate(request, username=email, password=password)
+        
+        if driver is not None:
+            # Ensure the authenticated user is a driver
+            try:
+                driver_instance = Driver.objects.get(user=driver)
+            except Driver.DoesNotExist:
+                return Response({'error': 'Invalid credentials or not a driver'}, status=status.HTTP_401_UNAUTHORIZED)
+            
+            # Get or create a token for the driver
+            token, created = Token.objects.get_or_create(user=driver)
+            
+            # Serialize the driver's data
+            serializer = DriverSerializer(driver_instance, context={'request': request})
+            
+            return Response({
+                'token': token.key,
+                'driver_id': driver_instance.driver_id,  # Use driver_id from the Driver model
+                'driver_data': serializer.data
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+class DriverUpdateProfileView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def patch(self, request):
+        try:
+            print(request.data)
+            driver = request.user.driver  # Assuming request.user is linked to Driver
+        except Driver.DoesNotExist:
+            return Response({"error": "Driver not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        data = request.data.copy()
+        if 'introduction_media' not in data:
+            data.pop('introduction_media', None)  # Ensure it's removed if not provided
+
+        # Pass 'request' in the serializer's context
+        serializer = DriverSignupSerializer(driver, data=data, partial=True, context={'request': request})
+        print(serializer.is_valid())
+
+        if serializer.is_valid():
+            # Save the updated data
+            print("Saving driver profile")
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            print("Errors:", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DriverDeleteProfileView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, driver_id):
+        try:
+            driver = Driver.objects.get(driver_id=driver_id, user=request.user)
+            driver.user.delete()  # Delete associated user account
+            driver.delete()  # Delete the driver profile
+            return Response({"message": "Profile deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+        except Driver.DoesNotExist:
+            return Response({"error": "Driver not found"}, status=status.HTTP_404_NOT_FOUND)

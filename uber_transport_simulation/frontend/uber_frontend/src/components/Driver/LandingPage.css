@@ -1,0 +1,68 @@
+/* Ensure the landing container fills the viewport */
+.landing-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.content {
+    flex: 1;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.landing-header {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 1rem;
+}
+
+.landing-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.landing-option {
+    background-color: #e9ecef;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.landing-option:hover {
+    background-color: #dee2e6;
+    transform: translateX(5px);
+}
+
+.arrow {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.map-view {
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+}
+
+.map-view iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

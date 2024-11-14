@@ -1,0 +1,66 @@
+/* Wrapper for the form with centered alignment */
+.signup-wrapper {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem; /* Reduced padding around the form */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+}
+
+/* Form header */
+.signup-wrapper h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+/* Adjusting the form row layout */
+.form-row {
+    display: flex;
+    gap: 5rem; /* Reduced gap between fields */
+    margin-bottom: 0.7rem; /* Reduced vertical space between rows */
+}
+
+.form-column {
+    flex: 1;
+}
+
+/* Input styling */
+.form-control {
+    width: 100%;
+    padding: 0.8rem; /* Slightly reduced padding inside each input field */
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Add spacing around form control groups */
+.form-group {
+    margin-bottom: 1rem; /* Reduced vertical spacing for each group */
+}
+
+/* Adjust input and label alignment */
+.form-group input {
+    margin-top: 0.5rem;
+}
+
+button {
+    margin-top: 1.5rem; /* Reduced top margin for spacing */
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, transform 0.3s ease-in-out;
+}
+

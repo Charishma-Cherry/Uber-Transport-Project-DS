@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/drivers/', include('drivers.urls')),  # Ensure 'api/' is the prefix here
     path('api/', include('users.urls')),  # Includes user routes
     # Add additional routes for rides, billing, and drivers as needed
 ]

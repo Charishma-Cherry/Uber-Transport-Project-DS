@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import api, { endpoints } from '../services/api';
 
 export const AuthContext = createContext();
@@ -7,6 +7,33 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
+  const loginDriver = async (email, password) => {
+    try {
+      const response = await api.post(endpoints.DRIVER_LOGIN, { email, password });
+      console.log(response.data)
+
+      const { token, driver_id, driver_data } = response.data; // Ensure `first_name` or similar is included
+
+      if (!token || !driver_id) {
+        throw new Error('Invalid login response');
+      }
+
+      // Store details in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify({ "id": driver_id, "first_name" : driver_data.first_name  })); // Store `first_name`
+      localStorage.setItem('driver_id', driver_id);
+      localStorage.setItem('userType', "driver");
+
+      // Set default Authorization header
+      api.defaults.headers.common['Authorization'] = `Token ${token}`;
+
+     
+      return response;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
+  }; // Return the full response object
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -78,17 +105,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // Clear localStorage and remove token
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('driver_id');
+    localStorage.removeItem('userType');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
     console.log('User logged out');
   };
 
-
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, fetchUser , signup}}>
+    <AuthContext.Provider value={{ loginDriver, user, loading, login, fetchUser , signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+// Custom hook to access the AuthContext
+// export const useAuth = () => {
+//   return useContext(AuthContext);
+// };
