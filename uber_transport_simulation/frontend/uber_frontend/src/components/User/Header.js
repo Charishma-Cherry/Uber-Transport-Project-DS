@@ -5,13 +5,19 @@ import { AuthContext } from '../../context/AuthContext';
 import './Header.css';  
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const userType = localStorage.getItem('userType');
+  const loggedIn = localStorage.getItem('token');
+  const isUserRoute = window.location.pathname.startsWith('/user'); // Use isUserRoute here
 
   const handleLogout = () => {
     logout();
     navigate('/user/login');
   };
+
+  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
   return (
     <Navbar className="custom-navbar" expand="lg">
@@ -19,7 +25,7 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          {user ? (
+          {loggedIn && userType === 'customer' && isUserRoute && user ? ( // Use isUserRoute here
             <>
               <Nav.Link as={Link} to="/user/dashboard">Dashboard</Nav.Link>
               <Nav.Link as={Link} to="/user/profile">Profile</Nav.Link>
