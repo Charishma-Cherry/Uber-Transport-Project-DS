@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import api, { endpoints } from '../services/api';
 
 export const AuthContext = createContext();
@@ -116,13 +116,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loginDriver, logout, user, loading, login, fetchUser , signup }}>
+    <AuthContext.Provider value={{ loginDriver, user, loading, login, fetchUser , signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 // Custom hook to access the AuthContext
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+// export const useAuth = () => {
+//   return useContext(AuthContext);
+// };

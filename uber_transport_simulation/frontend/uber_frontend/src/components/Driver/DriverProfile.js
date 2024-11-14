@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../../api';
-import { BACKEND_HOST_NAME } from '../../api';
+import axios, { BACKEND_HOST_NAME } from '../../services/api';
 import './DriverProfile.css';
 
 function DriverProfile() {

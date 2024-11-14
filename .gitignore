@@ -5,3 +5,7 @@ uber_transport_simulation/backend/drivers/migrations/
 /uber_transport_simulation/backend/media
 uber_transport_simulation/backend/db.sqlite3
 /uber_transport_simulation/frontend/node_modules
+/uber_transport_simulation/backend/users/migrations
+uber_transport_simulation/backend/debug.log
+uber_transport_simulation/frontend/uber_frontend/package-lock.json
+uber_transport_simulation/frontend/uber_frontend/package-lock.json
