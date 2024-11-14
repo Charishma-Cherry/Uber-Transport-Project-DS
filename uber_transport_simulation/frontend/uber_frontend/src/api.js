@@ -1,0 +1,37 @@
+// src/api.js
+
+import axios from 'axios';
+
+export const BACKEND_HOST_NAME = 'http://localhost:8000/';
+
+// Define the base URL for the API, using an environment variable or defaulting to localhost
+const API_URL = process.env.REACT_APP_API_URL || BACKEND_HOST_NAME;
+
+// Create an axios instance with the base URL
+const axiosInstance = axios.create({
+  baseURL: API_URL + 'api/', // Set the base URL for all requests
+});
+
+// Add a request interceptor to include the authorization token in headers
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Retrieve token from local storage
+    if (token) {
+      // If token exists, set the Authorization header
+      config.headers['Authorization'] = `Token ${token}`;
+    }
+    return config; // Return the modified config
+  },
+  (error) => Promise.reject(error) // Handle errors in request configuration
+);
+
+// Define API endpoint paths for driver-related operations
+export const endpoints = {
+  DRIVER_SIGNUP: '/drivers/signup/',       // Endpoint for driver signup
+  DRIVER_LOGIN: '/drivers/login/',         // Endpoint for driver login
+  DRIVER_PROFILE: (driverId) => `/drivers/${driverId}/profile/`, // Endpoint for fetching driver profile by driver ID
+  DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
+};
+
+// Export the configured axios instance for use in other parts of the application
+export default axiosInstance;

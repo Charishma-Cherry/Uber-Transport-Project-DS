@@ -1,0 +1,70 @@
+/* Login Component Styling */
+body {
+    background-color: #f4f6f8;
+    margin: 0;
+    font-family: 'Calibri', Arial, sans-serif;
+}
+
+/* Centering and styling the login form */
+.login-wrapper {
+    max-width: 450px; /* Increased width for more space */
+    margin: 6rem auto; /* More margin for spacing */
+    padding: 3.5rem; /* Increased padding inside the container for more gap from edges */
+    background-color: #ffffff;
+    border-radius: 15px; /* Larger border radius for a modern look */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Deeper shadow for depth */
+    border: 1px solid #e0e0e0;
+}
+
+/* Styling the heading */
+.login-wrapper h2 {
+    text-align: center;
+    font-size: 2rem; /* Slightly larger font size */
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 2.5rem; /* More space below heading */
+}
+
+/* Form group spacing */
+.form-group {
+    margin-bottom: 2rem; /* Increased bottom margin for more space between fields */
+}
+
+/* Input field styling with more margin */
+.form-control {
+    width: 100%;
+    padding: 1rem; /* Larger padding inside input fields */
+    margin-bottom: 1.5rem; /* More space between input fields */
+    border: 1px solid #ced4da;
+    border-radius: 10px; /* Larger border radius for inputs */
+    background-color: #f9f9f9;
+    font-size: 1rem; /* Consistent font size with profile page */
+}
+
+/* Button styling with black color */
+.btn-primary {
+    width: 100%;
+    margin-top: 2rem; /* More space above button */
+    padding: 1.2rem; /* Larger padding for bigger button */
+    font-size: 1.1rem; /* Slightly larger font size for button text */
+    font-weight: bold;
+    background-color: #333; /* Black color as per request */
+    color: #fff;
+    border: none;
+    border-radius: 10px; /* Larger border radius for button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+/* Button hover effect with darker black */
+.btn-primary:hover {
+    background-color: #000; /* Darker black on hover */
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+/* Arrow after button text (consistent with original design) */
+.btn-primary::after {
+    content: ' →';
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+}

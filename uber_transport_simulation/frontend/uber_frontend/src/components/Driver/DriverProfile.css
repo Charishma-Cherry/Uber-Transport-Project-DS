@@ -1,0 +1,113 @@
+/* Main container for profile page */
+.profile-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Container for profile details */
+.profile-details {
+    flex: 2;
+    margin-right: 2rem;
+}
+
+/* Header styling */
+.profile-details h2 {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Label and input styling */
+.profile-details label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.profile-details input {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    margin-top: 0.3rem;
+}
+
+/* Profile picture container */
+.profile-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #ced4da;
+}
+
+/* Button container for Edit and Delete buttons */
+.button-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Uniform button styling */
+.button-container button,
+.delete-button {
+    width: 130px; /* Fixed width for uniform size */
+    padding: 0.75rem 0; /* Same vertical padding for both buttons */
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover,
+.delete-button:hover {
+    opacity: 0.9;
+}
+
+/* Styling for Edit button */
+.button-container button:first-child {
+    background-color: #007bff; /* Bootstrap primary color */
+}
+
+/* Styling for Delete button */
+.delete-button {
+    background-color: #6c757d; /* Bootstrap secondary color */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-details {
+        margin-right: 0;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    .profile-image {
+        margin-bottom: 1.5rem;
+    }
+}
+
