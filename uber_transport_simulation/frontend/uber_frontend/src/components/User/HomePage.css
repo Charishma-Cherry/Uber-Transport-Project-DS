@@ -1,0 +1,14 @@
+.home-page {
+    background-color: #f8f9fa; /* Light background color */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  h1 {
+    color: #007bff; /* Primary color for heading */
+  }
+  
+  .selection-buttons {
+    margin-top: 20px;
+  }
