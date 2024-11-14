@@ -52,6 +52,7 @@ const Profile = () => {
       
       // Append the name field
       formData.append('name', profile.name || '');
+      formData.append('customer_id', profile.customer_id || '');
 
       // Append the profile picture if it exists
       if (profilePicture) {
@@ -112,6 +113,18 @@ const Profile = () => {
             placeholder="Enter your name"
             value={profile.name || ''}
             onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formCustomerId">
+          <Form.Label>Customer ID</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Customer ID"
+            value={profile.customer_id || ''}
+            readOnly
+            disabled
+            style={{ backgroundColor: '#f1f1f1' }}
           />
         </Form.Group>
 
