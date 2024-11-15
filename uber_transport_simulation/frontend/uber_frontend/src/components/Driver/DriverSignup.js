@@ -75,7 +75,7 @@ function DriverSignup() {
       localStorage.setItem('userType', "driver");
 
       const userData = { "id": driver_id, "first_name" : formData.first_name  };
-      localStorage.setItem('user', JSON.stringify(userData)); // Store `first_name`
+      localStorage.setItem('user', JSON.stringify(userData)); // Store first_name
    
       alert("Driver Signup Successful!");
 
