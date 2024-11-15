@@ -27,7 +27,12 @@ const CombinedNavbar = () => {
           <Nav className="ml-auto">
             {/* Driver Logout Button - Always display if logged in and on driver route */}
             {userType === 'driver' && isDriverRoute && loggedIn && (
+              <>
+              <Nav.Link as={Link} to={`/driver/${localStorage.getItem('driver_id')}/profile`}>Profile</Nav.Link>
+              <Nav.Link as={Link} to="/driver/billing-history">Billing History</Nav.Link>
+              <Nav.Link as={Link} to="/driver/ride-history">Ride History</Nav.Link>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+            </>
             )}
 
             {loggedIn && user ? (
