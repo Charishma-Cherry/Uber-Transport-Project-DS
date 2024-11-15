@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import './CombinedNavbar.css';
 
 const CombinedNavbar = () => {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const userType = localStorage.getItem('userType');
@@ -18,8 +18,6 @@ const CombinedNavbar = () => {
     navigate('/');
   };
 
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-
   return (
     <Navbar className="custom-navbar" expand="lg">
       <Container>
@@ -27,30 +25,35 @@ const CombinedNavbar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            {loggedIn && user && (
+            {/* Driver Logout Button - Always display if logged in and on driver route */}
+            {userType === 'driver' && isDriverRoute && loggedIn && (
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+            )}
+
+            {loggedIn && user ? (
               <>
-                <span className="nav-link">Welcome, {user.name}!</span>
-                {userType === 'customer' && isUserRoute && (
+                {/* Show Dashboard and Profile for the user */}
+                {isUserRoute && (
                   <>
                     <Nav.Link as={Link} to="/user/dashboard">Dashboard</Nav.Link>
                     <Nav.Link as={Link} to="/user/profile">Profile</Nav.Link>
-                    <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                   </>
                 )}
-                {userType === 'driver' && isDriverRoute && (
-                  <>
-                    <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                  </>
+
+                {/* Show Logout for the user route */}
+                {isUserRoute && !isDriverRoute && (
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 )}
               </>
-            )
-            }
-            {/* {!loggedIn && (
-              <>
-                <Nav.Link as={Link} to="/user/login">Login</Nav.Link>
-                <Nav.Link as={Link} to="/user/signup">Signup</Nav.Link>
-              </>
-            )} */}
+            ) : (
+              // Show Login and Signup only for user routes when not logged in
+              isUserRoute && !loggedIn && (
+                <>
+                  <Nav.Link as={Link} to="/user/login">Login</Nav.Link>
+                  <Nav.Link as={Link} to="/user/signup">Signup</Nav.Link>
+                </>
+              )
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

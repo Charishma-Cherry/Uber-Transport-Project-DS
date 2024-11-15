@@ -9,7 +9,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user , logout } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -77,12 +77,29 @@ const Profile = () => {
     }
   };
 
+  // Handle Profile Deletion
+  const handleDeleteProfile = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete your profile?");
+    if (confirmDelete) {
+      try {
+        await api.delete('/customers/delete_profile/'); // Send DELETE request to the profile deletion endpoint
+        alert('Profile deleted successfully');
+        logout(); // Log the user out
+        window.location.href = "/";  // Redirect to homepage or login page
+      } catch (error) {
+        console.error('Error deleting profile:', error);
+        setError('Failed to delete profile');
+      }
+    }
+  };
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
   if (!user) return <div>Please log in to view your profile.</div>;
 
   return (
-    <div className="profile-container">
+    <div className="profile-container1">
       <h2>User Profile</h2>
 
       {/* Display Profile Picture */}
@@ -180,6 +197,10 @@ const Profile = () => {
 
         {/* Submit Button */}
         <Button variant="primary" type="submit">Update Profile</Button>
+        {/* Delete Profile Button */}
+        <Button variant="danger" onClick={handleDeleteProfile} className="mt-3">
+          Delete Profile
+        </Button>
       </Form>
     </div>
   );

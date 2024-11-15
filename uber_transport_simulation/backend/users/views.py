@@ -44,7 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
-        print("Incoming u:", user)
+        print("Incoming user:", user)
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             return Response({
@@ -56,12 +56,12 @@ class UserViewSet(viewsets.ModelViewSet):
             })
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
     
-    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def profile(self, request):
         serializer = self.get_serializer(request.user.profile)
         return Response(serializer.data)
   
-    @action(detail=False, methods=['put', 'patch'], permission_classes=[AllowAny], parser_classes=[MultiPartParser, FormParser])
+    @action(detail=False, methods=['put', 'patch'], permission_classes=[IsAuthenticated], parser_classes=[MultiPartParser, FormParser])
     def update_profile(self, request):
         print("Incoming data:", request.data)
         user_profile = request.user.profile  # Get the user's profile
@@ -72,3 +72,15 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         print("Validation errors:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @action(detail=False, methods=['delete'], permission_classes=[IsAuthenticated])
+    def delete_profile(self, request):
+        user = request.user
+        try:
+            # Deleting the user profile and user from the database
+            user_profile = user.profile
+            user_profile.delete()
+            user.delete()
+            return Response({'message': 'Profile deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

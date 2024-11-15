@@ -1,5 +1,3 @@
-// src/api.js
-
 import axios from 'axios';
 
 export const BACKEND_HOST_NAME = 'http://localhost:8000/';
@@ -15,17 +13,30 @@ const axiosInstance = axios.create({
 // Add a request interceptor to include the authorization token in headers
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Retrieve token from local storage
+    const token = localStorage.getItem('token');
     if (token) {
-      // If token exists, set the Authorization header
       config.headers['Authorization'] = `Token ${token}`;
     }
-     
-    config.headers['Content-Type'] = 'multipart/form-data';
-    return config; // Return the modified config
+
+    // // Conditionally set content-type only when sending form data
+    // if (config.headers['Content-Type'] === 'multipart/form-data') {
+    //   // Do not modify for form-data requests
+    //   return config;
+    // } else {
+    //   config.headers['Content-Type'] = 'application/json'; // Default to application/json
+    // }
+
+    // Only set Content-Type for JSON requests, let FormData handle it automatically
+    if (!(config.data instanceof FormData)) {
+      config.headers['Content-Type'] = 'application/json'; // Default to application/json
+    }
+
+
+    return config;
   },
-  (error) => Promise.reject(error) // Handle errors in request configuration
+  (error) => Promise.reject(error)
 );
+
 
 // Define API endpoint paths for driver-related operations
 export const endpoints = {

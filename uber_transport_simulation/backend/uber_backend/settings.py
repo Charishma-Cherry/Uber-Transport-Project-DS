@@ -21,12 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'users',
     'corsheaders',  
-    'rest_framework.authtoken',  # For token-based authentication
     'drivers',
     'billing',
     'rides',
-    'users',
+    
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -120,15 +122,15 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-# # REST Framework settings
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.TokenAuthentication',
-#     ),
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.AllowAny',
-#     ),
-# }
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # For development only, adjust for production
@@ -158,5 +160,3 @@ LOGGING = {
     },
 }
 
-# User model
-# AUTH_USER_MODEL = 'users.UserProfile'  # Uncomment if you're using a custom user model
