@@ -14,7 +14,7 @@ const Dashboard = () => {
         <p>Choose an action</p>
       </div>
       <div className="dashboard-buttons">
-        <Button as={Link} to="/user/billing-history" variant="success" className="mx-2">Book a Ride</Button>
+        <Button as={Link} to="/user/book-ride" variant="success" className="mx-2">Book a Ride</Button>
         <Button as={Link} to="/user/billing-history" variant="secondary" className="mx-2">Billing History</Button>
         <Button as={Link} to="/user/ride-history" variant="success" className="mx-2">Ride History</Button>
         
