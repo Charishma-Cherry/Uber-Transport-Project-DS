@@ -5,6 +5,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  // added by sushma
+  const [customerId, setCustomerId] = useState(null);  // New state for customer ID
   const [loading, setLoading] = useState(true);
   
 
@@ -14,7 +16,15 @@ export const AuthProvider = ({ children }) => {
     
     if (token && storedUser) {
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
-      setUser(JSON.parse(storedUser));
+      // added by sushma
+      const parsedUser = JSON.parse(storedUser);  // Parse storedUser
+      setUser(parsedUser);
+      setCustomerId(parsedUser.id);  // Set customerId from parsedUser
+
+
+      // setUser(JSON.parse(storedUser));
+      // // added by sushma
+      // setCustomerId(parsedUser.id);  // Set customerId from stored user
       setLoading(false);
     } else if (token) {
       fetchUser();
@@ -27,6 +37,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.get(endpoints.profile);
       setUser(response.data);
+      //  added by sushma
+      setCustomerId(response.data.customer_id);  // Set customerId from profile response
       console.log('User fetched successfully:', response.data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -69,6 +81,8 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
       
       setUser(user);
+      // added by sushma
+      setCustomerId(user.id);  // Set customerId after login
       console.log('Login successful, user set:', user);
       return true;
     } catch (error) {
@@ -82,12 +96,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
+    // added by sushma
+    setCustomerId(null);  // Clear customerId on logout
     console.log('User logged out');
   };
 
-
+// added customer id by sushma
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, fetchUser , signup}}>
+    <AuthContext.Provider value={{ user, customerId, loading, login, logout, fetchUser , signup}}> 
       {children}
     </AuthContext.Provider>
   );

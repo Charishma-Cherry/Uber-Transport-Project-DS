@@ -9,7 +9,6 @@ urlpatterns = [
     path('api/', include('users.urls')), 
     path('api/', include('billing.urls')),
     path('api/drivers/', include('drivers.urls')),
-    # path('api/', include('drivers.urls')), 
     
 ]
 

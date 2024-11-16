@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react'; // Make sure useContext is imported
 import { Table, Spinner, Alert } from 'react-bootstrap';
-import { getBillingHistoryForCustomer } from '../../services/api'; // Import the billing history API call
+import { getBillingHistoryForCustomer } from '../../services/api';
+import { AuthContext } from '../../context/AuthContext';
 
 const BillingHistory = () => {
+  const { customerId } = useContext(AuthContext);  // Use customerId from AuthContext
   const [billingHistory, setBillingHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch billing history data when the component mounts
     const fetchBillingHistory = async () => {
       try {
-        const response = await getBillingHistoryForCustomer(); // Calls API to get billing history
+        const response = await getBillingHistoryForCustomer(customerId);  // Pass customerId here
         setBillingHistory(response.data);
       } catch (err) {
         setError('Failed to load billing history');
@@ -21,8 +22,13 @@ const BillingHistory = () => {
       }
     };
 
-    fetchBillingHistory();
-  }, []);
+    if (customerId) {  // Check if customerId is available from context
+      fetchBillingHistory();
+    } else {
+      setError('Customer ID not found');
+      setLoading(false);
+    }
+  }, [customerId]);  // Add customerId as a dependency to refetch if it changes
 
   if (loading) return <Spinner animation="border" />;
   if (error) return <Alert variant="danger">{error}</Alert>;
