@@ -12,6 +12,7 @@ import PrivateRoute from './components/User/PrivateRoute';
 import DriverSignup from './components/Driver/DriverSignup';
 import DriverProfile from './components/Driver/DriverProfile';
 import DriverLogin from './components/Driver/DriverLogin';
+import RideBookingForm from './components/Rides/RideBookingForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -36,6 +37,15 @@ function App() {
             <Profile />
           </PrivateRoute>
         } />
+
+        <Route path="/user/book-ride" element={
+          <PrivateRoute>
+            <RideBookingForm />
+          </PrivateRoute>
+          } />
+
+
+
       </Routes>
     </Router>
   </AuthProvider>

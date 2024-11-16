@@ -9,9 +9,9 @@ sqlparse==0.5.1
 django-cors-headers==3.14.0       # CORS headers for handling frontend-backend requests
 pillow==10.0.0                    # For image handling
 
-# Optional: Environment variable management
-django-environ==0.10.0            # For secure management of environment variables
+#mapComponent for Rides
+@react-google-maps/api
 
-# Database Driver 
-psycopg2==2.9.6                   # PostgreSQL database driver
-mysqlclient==2.1.3                # MySQL database driver
+# # Database Driver 
+# psycopg2==2.9.6                   # PostgreSQL database driver
+# mysqlclient==2.1.3                # MySQL database driver
