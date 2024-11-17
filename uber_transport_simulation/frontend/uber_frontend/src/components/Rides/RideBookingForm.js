@@ -148,6 +148,39 @@ function RideBookingForm() {
       />
 
       <form style={{ marginTop: '1.5rem' }}>
+
+
+<div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '1rem',
+          marginBottom: '1rem',
+        }}>
+          <input
+            type="text"
+            value={ride.pickup_location}
+            placeholder="Pickup Location"
+            readOnly
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          />
+          <input
+            type="text"
+            value={ride.dropoff_location}
+            placeholder="Dropoff Location"
+            readOnly
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          />
+        </div>
         {/* Passenger Count Dropdown */}
         <select
           value={ride.passenger_count}
