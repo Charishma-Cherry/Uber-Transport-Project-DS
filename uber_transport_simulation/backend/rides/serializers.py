@@ -17,6 +17,7 @@ class RideSerializer(serializers.ModelSerializer):
             'pickup_datetime',
             'dropoff_datetime',
             'distance',
+            'passenger_count',
             'status',
         ]
         read_only_fields = ['ride_id', 'customer', 'status', 'dropoff_datetime']  # Ensure auto-managed fields are not editable by the user

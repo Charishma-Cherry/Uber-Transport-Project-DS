@@ -1,84 +1,4 @@
-// import React, { useRef, useState } from 'react';
-// import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
 
-// const mapContainerStyle = {
-//     height: '400px',
-//     width: '100%'
-// };
-
-// const center = {
-//     lat: 37.7749, // Center of San Francisco
-//     lng: -122.4194
-// };
-
-// const options = {
-//     restriction: {
-//         latLngBounds: {
-//             north: 38.4,
-//             south: 36.9,
-//             east: -121.8,
-//             west: -123.0
-//         },
-//         strictBounds: true,
-//     }
-// };
-
-// const libraries = ['places']; // Define libraries outside of component
-
-// const MapComponent = ({ apiKey, markers, onPlaceChange, onMapClick }) => {
-//     const pickupRef = useRef(null);
-//     const dropoffRef = useRef(null);
-
-//     const handlePlaceSelected = (ref, type) => {
-//         if (ref.current && ref.current.getPlace) {
-//             const place = ref.current.getPlace();
-//             if (place.geometry) {
-//                 onPlaceChange(place, type);
-//             }
-//         }
-//     };
-
-//     const handleMapClick = (event) => {
-//         const latLng = event.latLng;
-//         onMapClick(latLng); // Pass the latitude and longitude directly to the handler
-//     };
-
-//     return (
-//         <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
-//             <Autocomplete
-//                 onLoad={(ref) => pickupRef.current = ref}
-//                 onPlaceChanged={() => handlePlaceSelected(pickupRef, 'pickup')}
-//             >
-//                 <input type="text" placeholder="Enter pickup location" style={{ width: '100%', padding: '10px' }}/>
-//             </Autocomplete>
-//             <Autocomplete
-//                 onLoad={(ref) => dropoffRef.current = ref}
-//                 onPlaceChanged={() => handlePlaceSelected(dropoffRef, 'dropoff')}
-//             >
-//                 <input type="text" placeholder="Enter dropoff location" style={{ width: '100%', padding: '10px' }}/>
-//             </Autocomplete>
-//             <GoogleMap
-//                 mapContainerStyle={mapContainerStyle}
-//                 center={center}
-//                 zoom={10}
-//                 options={options}
-//                 onClick={handleMapClick} // This handles map clicks for setting location
-//             >
-//                 {markers.map((marker, index) => (
-//                     <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} />
-//                 ))}
-//             </GoogleMap>
-//         </LoadScript>
-//     );
-// };
-
-// export default MapComponent;
-
-
-
-// MapComponent.js
-
-// MapComponent.js
 // MapComponent.js
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
@@ -211,7 +131,7 @@ function MapComponent({
       const routeDetails = {
         distance: route.distance.text,
         duration: route.duration.text,
-        estimated_price: calculatePrice(route.distance.value)
+        // estimated_price: calculatePrice(route.distance.value)
       };
       
       setRouteInfo(routeDetails);
@@ -220,7 +140,7 @@ function MapComponent({
         ...prev,
         distance: route.distance.text,
         duration: route.duration.text,
-        estimated_price: routeDetails.estimated_price
+        // estimated_price: routeDetails.estimated_price
       }));
       
     } catch (error) {

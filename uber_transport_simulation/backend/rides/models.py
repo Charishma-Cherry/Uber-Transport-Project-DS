@@ -18,6 +18,7 @@ class Ride(models.Model):
     pickup_datetime = models.DateTimeField()
     dropoff_datetime = models.DateTimeField(null=True, blank=True)
     distance = models.FloatField(null=True, blank=True)  # Distance covered
+    passenger_count = models.IntegerField(default=1)
     status = models.CharField(max_length=10, choices=RIDE_STATUS_CHOICES, default='requested')
 
     def __str__(self):
