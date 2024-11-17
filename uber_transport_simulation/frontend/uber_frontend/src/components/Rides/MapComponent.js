@@ -1,97 +1,18 @@
-// import React, { useRef, useState } from 'react';
-// import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
-
-// const mapContainerStyle = {
-//     height: '400px',
-//     width: '100%'
-// };
-
-// const center = {
-//     lat: 37.7749, // Center of San Francisco
-//     lng: -122.4194
-// };
-
-// const options = {
-//     restriction: {
-//         latLngBounds: {
-//             north: 38.4,
-//             south: 36.9,
-//             east: -121.8,
-//             west: -123.0
-//         },
-//         strictBounds: true,
-//     }
-// };
-
-// const libraries = ['places']; // Define libraries outside of component
-
-// const MapComponent = ({ apiKey, markers, onPlaceChange, onMapClick }) => {
-//     const pickupRef = useRef(null);
-//     const dropoffRef = useRef(null);
-
-//     const handlePlaceSelected = (ref, type) => {
-//         if (ref.current && ref.current.getPlace) {
-//             const place = ref.current.getPlace();
-//             if (place.geometry) {
-//                 onPlaceChange(place, type);
-//             }
-//         }
-//     };
-
-//     const handleMapClick = (event) => {
-//         const latLng = event.latLng;
-//         onMapClick(latLng); // Pass the latitude and longitude directly to the handler
-//     };
-
-//     return (
-//         <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
-//             <Autocomplete
-//                 onLoad={(ref) => pickupRef.current = ref}
-//                 onPlaceChanged={() => handlePlaceSelected(pickupRef, 'pickup')}
-//             >
-//                 <input type="text" placeholder="Enter pickup location" style={{ width: '100%', padding: '10px' }}/>
-//             </Autocomplete>
-//             <Autocomplete
-//                 onLoad={(ref) => dropoffRef.current = ref}
-//                 onPlaceChanged={() => handlePlaceSelected(dropoffRef, 'dropoff')}
-//             >
-//                 <input type="text" placeholder="Enter dropoff location" style={{ width: '100%', padding: '10px' }}/>
-//             </Autocomplete>
-//             <GoogleMap
-//                 mapContainerStyle={mapContainerStyle}
-//                 center={center}
-//                 zoom={10}
-//                 options={options}
-//                 onClick={handleMapClick} // This handles map clicks for setting location
-//             >
-//                 {markers.map((marker, index) => (
-//                     <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} />
-//                 ))}
-//             </GoogleMap>
-//         </LoadScript>
-//     );
-// };
-
-// export default MapComponent;
-
-
-
-// MapComponent.js
-
-// MapComponent.js
-// MapComponent.js
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api';
+
 
 const mapContainerStyle = {
   height: '400px',
   width: '100%'
 };
 
+
 const center = {
   lat: 37.7749,
   lng: -122.4194
 };
+
 
 const options = {
   restriction: {
@@ -107,13 +28,15 @@ const options = {
   zoomControl: true
 };
 
+
 const libraries = ['places'];
 
-function MapComponent({ 
-  apiKey, 
-  markers, 
-  setMarkers, 
-  directions, 
+
+function MapComponent({
+  apiKey,
+  markers,
+  setMarkers,
+  directions,
   setDirections,
   setRouteInfo,
   setRide
@@ -124,15 +47,18 @@ function MapComponent({
   const [map, setMap] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
+
   const onLoad = React.useCallback((map) => {
     setMap(map);
     setMapLoaded(true);
   }, []);
 
+
   const onUnmount = React.useCallback(() => {
     setMap(null);
     setMapLoaded(false);
   }, []);
+
 
   const handlePlaceChanged = (ref, index) => {
     if (ref.current && ref.current.getPlace) {
@@ -145,7 +71,7 @@ function MapComponent({
           address: place.formatted_address
         };
         setMarkers(newMarkers);
-        
+       
         setRide(prev => ({
           ...prev,
           [index === 0 ? 'pickup_location' : 'dropoff_location']: place.formatted_address
@@ -154,12 +80,13 @@ function MapComponent({
     }
   };
 
+
   const handleMapClick = async (event) => {
     if (!window.google || !mapLoaded) return;
-    
+   
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
-    
+   
     try {
       const geocoder = new window.google.maps.Geocoder();
       const { results, status } = await new Promise((resolve, reject) => {
@@ -169,10 +96,11 @@ function MapComponent({
         });
       });
 
+
       if (status === 'OK' && results[0]) {
         const address = results[0].formatted_address;
         const newMarkers = [...markers];
-        
+       
         if (isSettingPickup) {
           newMarkers[0] = { lat, lng, address };
           setRide(prev => ({ ...prev, pickup_location: address }));
@@ -180,7 +108,7 @@ function MapComponent({
           newMarkers[1] = { lat, lng, address };
           setRide(prev => ({ ...prev, dropoff_location: address }));
         }
-        
+       
         setMarkers(newMarkers);
         setIsSettingPickup(!isSettingPickup);
       }
@@ -189,8 +117,10 @@ function MapComponent({
     }
   };
 
+
   const calculateRoute = async () => {
     if (!window.google || markers.length !== 2) return;
+
 
     try {
       const directionsService = new window.google.maps.DirectionsService();
@@ -205,28 +135,30 @@ function MapComponent({
         });
       });
 
+
       setDirections(result);
-      
+     
       const route = result.routes[0].legs[0];
       const routeDetails = {
         distance: route.distance.text,
         duration: route.duration.text,
         estimated_price: calculatePrice(route.distance.value)
       };
-      
+     
       setRouteInfo(routeDetails);
-      
+     
       setRide(prev => ({
         ...prev,
         distance: route.distance.text,
         duration: route.duration.text,
         estimated_price: routeDetails.estimated_price
       }));
-      
+     
     } catch (error) {
       console.error('Error calculating route:', error);
     }
   };
+
 
   const calculatePrice = (distanceInMeters) => {
     const basePrice = 5.00;
@@ -234,6 +166,7 @@ function MapComponent({
     const distanceInKm = distanceInMeters / 1000;
     return (basePrice + (distanceInKm * pricePerKm)).toFixed(2);
   };
+
 
   const resetMap = () => {
     setMarkers([]);
@@ -251,11 +184,13 @@ function MapComponent({
     });
   };
 
+
   useEffect(() => {
     if (mapLoaded && markers.length === 2) {
       calculateRoute();
     }
   }, [markers, mapLoaded]);
+
 
   return (
     <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
@@ -293,6 +228,7 @@ function MapComponent({
           </Autocomplete>
         </div>
 
+
         <div style={{ position: 'relative' }}>
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
@@ -312,6 +248,7 @@ function MapComponent({
             ))}
             {directions && <DirectionsRenderer directions={directions} />}
           </GoogleMap>
+
 
           <div style={{
             position: 'absolute',
@@ -364,5 +301,6 @@ function MapComponent({
     </LoadScript>
   );
 }
+
 
 export default MapComponent;

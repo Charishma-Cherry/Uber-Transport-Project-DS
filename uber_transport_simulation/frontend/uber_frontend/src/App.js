@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -14,6 +13,7 @@ import DriverProfile from './components/Driver/DriverProfile';
 import DriverLogin from './components/Driver/DriverLogin';
 import RideBookingForm from './components/Rides/RideBookingForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (<AuthProvider>
@@ -38,6 +38,7 @@ function App() {
           </PrivateRoute>
         } />
 
+
         <Route path="/user/book-ride" element={
           <PrivateRoute>
             <RideBookingForm />
@@ -46,10 +47,14 @@ function App() {
 
 
 
+
+
+
       </Routes>
     </Router>
   </AuthProvider>
 );
 }
+
 
 export default App;
