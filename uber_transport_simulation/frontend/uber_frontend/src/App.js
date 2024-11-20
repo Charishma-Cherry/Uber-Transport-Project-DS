@@ -13,6 +13,9 @@ import DriverSignup from './components/Driver/DriverSignup';
 import DriverProfile from './components/Driver/DriverProfile';
 import DriverLogin from './components/Driver/DriverLogin';
 import RideBookingForm from './components/Rides/RideBookingForm';
+// added by sushma
+import BillingHistory from './components/Billing/BillingHistory';   
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -42,6 +45,12 @@ function App() {
           <PrivateRoute>
             <RideBookingForm />
           </PrivateRoute>
+          } />
+
+        <Route path="/user/billing-history" element={  // Added billing history route - added by sushma
+            <PrivateRoute>
+              <BillingHistory />
+            </PrivateRoute>
           } />
 
 

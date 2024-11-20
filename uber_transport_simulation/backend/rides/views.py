@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rides.models import Ride
 from .serializers import RideSerializer
+#added by sushma
+from billing.models import Billing    
+from users.models import UserProfile  
+###
 from django.db.models import Count
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
@@ -58,19 +62,84 @@ class RideViewSet(viewsets.ModelViewSet):
         location_stats = Ride.objects.values('pickup_location').annotate(total_rides=Count('id'))
         return Response(location_stats)
 
+    # @action(detail=True, methods=['patch'], url_path='status')
+    # def update_status(self, request, pk=None):
+    #     ride = get_object_or_404(Ride, pk=pk)
+    #     new_status = request.data.get('status')
+    #     if new_status not in dict(Ride.RIDE_STATUS_CHOICES):
+    #         return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
+    #     ride.status = new_status
+    #     ride.save()
+    #     return Response({"message": "Ride status updated successfully", "status": ride.status})
+
+    # def perform_create(self, serializer):
+    #     # Automatically set the customer to the logged-in user and default status to "requested"
+    #     serializer.save(customer=self.request.user)
+
+    # def perform_update(self, serializer):
+    #     serializer.save()
+
+### above is shobhitas update_status view 
+
+########### billing generation view - sushma
+
     @action(detail=True, methods=['patch'], url_path='status')
     def update_status(self, request, pk=None):
-        ride = get_object_or_404(Ride, pk=pk)
+        ride = self.get_object()
         new_status = request.data.get('status')
         if new_status not in dict(Ride.RIDE_STATUS_CHOICES):
-            return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
+          return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
         ride.status = new_status
         ride.save()
+        if new_status == 'completed':
+          try:
+            self.generate_billing(ride)
+          except Exception as e:
+            print(f"Error generating billing for ride ID {ride.ride_id}: {e}")
+            return Response(
+                {"message": "Ride status updated, but billing generation failed.", "status": ride.status},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
         return Response({"message": "Ride status updated successfully", "status": ride.status})
 
     def perform_create(self, serializer):
-        # Automatically set the customer to the logged-in user and default status to "requested"
         serializer.save(customer=self.request.user)
+
 
     def perform_update(self, serializer):
         serializer.save()
+
+
+    def generate_billing(self, ride):
+        print(f"Generating billing for ride ID: {ride.ride_id}")  # Debugging log
+
+        try:
+        # Ensure the customer has a valid profile
+           user_profile = ride.customer.profile
+
+        # Create a billing record
+           Billing.objects.create(
+            #    ride=ride,
+               pickup_time=ride.pickup_datetime.time(),
+               distance_covered=ride.distance or 0.0,
+               total_amount=ride.fare or 0.0,
+               source_location=ride.pickup_location,
+               destination_location=ride.dropoff_location,
+              driver_id=ride.driver,              # Driver reference (ForeignKey)
+              driver_name=ride.driver_name,       # Driver's name
+              customer_id=user_profile,           # Customer profile (ForeignKey)
+              customer_name=ride.customer_name    # Customer's name
+            )
+           print(f"Billing successfully created for ride ID: {ride.ride_id}")
+
+        except AttributeError as e:
+           print(f"Error: Missing profile for customer {ride.customer.id}: {e}")
+        except Exception as e:
+           print(f"Error generating billing for ride ID {ride.ride_id}: {e}")
+
+ 
+
+
+    
+
+

@@ -11,16 +11,31 @@ class RideSerializer(serializers.ModelSerializer):
         fields = [
             'ride_id',
             'customer',
+            'customer_name',
+            'customer_id',
             'driver',
+            'driver_name',
+            'driver_id',
             'pickup_location',
             'dropoff_location',
             'pickup_datetime',
             'dropoff_datetime',
             'distance',
+            'duration',
+            'fare',
             'passenger_count',
             'status',
         ]
-        read_only_fields = ['ride_id', 'customer', 'status', 'dropoff_datetime']  # Ensure auto-managed fields are not editable by the user
+        read_only_fields = [
+            'ride_id',
+            'customer',
+            'customer_name',
+            'customer_id',
+            'driver_name',
+            'driver_id',
+            'status',
+            'dropoff_datetime',
+        ]  # Ensure auto-managed fields are not editable by the user
 
 
     def validate(self, data):

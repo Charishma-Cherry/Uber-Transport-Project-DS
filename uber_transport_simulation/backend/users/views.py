@@ -47,11 +47,13 @@ class UserViewSet(viewsets.ModelViewSet):
         print("Incoming user:", user)
         if user:
             token, _ = Token.objects.get_or_create(user=user)
+            customer_id = user.profile.customer_id if hasattr(user, 'profile') else None    # added by sushma
             return Response({
                 'token': token.key,
                 'user': {
                     'id': user.id,
                     'username': user.username,
+                    'customer_id': customer_id,  #  added by sushma -  Include the customer_id
                 }
             })
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)

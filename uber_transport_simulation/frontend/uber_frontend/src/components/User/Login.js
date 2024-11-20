@@ -14,6 +14,13 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
+       // added by sushma
+       localStorage.setItem('userId', user.id); // Store user ID
+       localStorage.setItem('customerId', user.customer_id); // Store customer ID
+       console.log('User and Customer IDs stored in localStorage:', {
+       userId: localStorage.getItem('userId'),
+       customerId: localStorage.getItem('customerId'),
+    }); 
       navigate('/user/dashboard');
     }
   }, [user, navigate]);
@@ -26,6 +33,7 @@ const Login = () => {
       const success = await login(username, password);
       if (success) {
         console.log('Login successful');
+
         setMessage('Login successful!');
         setTimeout(() => {
           navigate('/user/dashboard');

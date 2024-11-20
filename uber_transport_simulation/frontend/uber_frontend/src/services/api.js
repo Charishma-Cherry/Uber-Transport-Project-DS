@@ -48,6 +48,7 @@ export const endpoints = {
   DRIVER_LOGIN: '/drivers/login/',         // Endpoint for driver login
   DRIVER_PROFILE: (driverId) => `/drivers/${driverId}/profile/`, // Endpoint for fetching driver profile by driver ID
   DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
+  BILLING_HISTORY: (customerId) => `/billing/history/customer/${customerId}/`, // Added by suhsma - billing history endpoint
 };
 
 // Export the configured axios instance for use in other parts of the application

@@ -46,3 +46,7 @@ class UserProfile(models.Model):
             customer_id = f"{random.randint(100, 999)}-{random.randint(10, 99)}-{random.randint(1000, 9999)}"
             if not UserProfile.objects.filter(customer_id=customer_id).exists():
                 return customer_id
+            
+
+
+

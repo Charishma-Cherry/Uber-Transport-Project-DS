@@ -64,7 +64,10 @@ export const AuthProvider = ({ children }) => {
       
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      api.defaults.headers.common['Authorization'] = `Token ${token}`;
+      
+      localStorage.setItem('customerId', user.customer_id);  // added by sushma
+      
+      api.defaults.headers.common['Authorization'] = `Token ${token}`;  
       
       setUser(user);
       console.log('Login successful, user set:', user);

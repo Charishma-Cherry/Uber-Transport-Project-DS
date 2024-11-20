@@ -10,13 +10,31 @@ class BillingViewSet(viewsets.ModelViewSet):
     queryset = Billing.objects.all()
     serializer_class = BillingSerializer
 
-    # (User) Generate Bill for a Customer for Each Ride (Billing History for Completed Rides)
+    # # (User) Generate Bill for a Customer for Each Ride (Billing History for Completed Rides)
+    # @action(detail=False, methods=['get'], url_path='history/customer/(?P<customer_id>[^/.]+)')
+    # def customer_billing_history(self, request, customer_id=None):
+    #     """Returns the billing history for a specific customer."""
+    #     # queryset = Billing.objects.filter(customer__customer_id=customer_id).order_by('-date')
+    #     queryset = Billing.objects.filter(customer_id__customer_id=customer_id).order_by('-date')
+    #     serializer = BillingSerializer(queryset, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # (User) Generate Bill for a Customer for Each Completed Ride (Billing History)
     @action(detail=False, methods=['get'], url_path='history/customer/(?P<customer_id>[^/.]+)')
     def customer_billing_history(self, request, customer_id=None):
-        """Returns the billing history for a specific customer."""
-        queryset = Billing.objects.filter(customer__customer_id=customer_id)
+
+        
+        # Filter the billing records for the given customer and status 'completed'
+        queryset = Billing.objects.filter(
+               customer_id__customer_id=customer_id  # Match the customer_id
+            ).order_by('-date')
+
+        # Serialize and return the data
         serializer = BillingSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+       
+
 
     # (Admin) Show Statistics (Revenue/Day Area Wise)
     @action(detail=False, methods=['get'], url_path='statistics/revenue/day')
