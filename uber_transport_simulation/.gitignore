@@ -1,0 +1,38 @@
+# Node.js dependencies
+node_modules/
+ 
+# Python virtual environments
+venv/
+env/
+.env/
+ 
+# Django migrations (ignore all .py files in migrations except __init__.py)
+*/migrations/*.py
+!*/migrations/__init__.py
+ 
+# macOS system files
+.DS_Store
+ 
+# Windows system files
+Thumbs.db
+ 
+# VS Code settings
+.vscode/
+ 
+# Sublime Text project and workspace files
+.sublime-project
+.sublime-workspace
+ 
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+ 
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+ 
+# Log files
+*.log
+ 
+# Temporary files
+*.tmp

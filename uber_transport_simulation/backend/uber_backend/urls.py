@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/drivers/', include('drivers.urls')),  # Ensure 'api/' is the prefix here
     path('api/', include('users.urls')),  # Includes user routes
     path('api/', include('rides.urls')),
+    path('api/', include('billing.urls')),
 
     # Add additional routes for rides, billing, and drivers as needed
 ]
