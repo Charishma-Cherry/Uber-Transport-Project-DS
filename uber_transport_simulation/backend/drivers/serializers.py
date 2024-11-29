@@ -21,8 +21,8 @@ class DriverSerializer(serializers.ModelSerializer):
         model = Driver
         fields = [
             'id', 'user', 'driver_id', 'first_name', 'last_name', 'address', 'city', 'state',
-            'zip_code', 'phone_number', 'email', 'car_number', 'car_name', 'rating',
-            'reviews', 'introduction_media_url', 'rides_history'
+            'zip_code', 'phone_number', 'email', 'car_number', 'car_name', 'rating', 'reviews',
+            'rides_history', 'location_state', 'location_county', 'location_city','introduction_media_url'
         ]
     
     def get_introduction_media_url(self, obj):

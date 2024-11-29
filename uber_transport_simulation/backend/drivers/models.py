@@ -26,6 +26,11 @@ class Driver(models.Model):
     reviews = models.TextField(null=True, blank=True)
     introduction_media = models.FileField(upload_to='driver_introduction_media/', null=True, blank=True)
     rides_history = models.CharField(max_length=255, null=True, blank=True)
+    #for driver willing to drive location
+    location_state = models.CharField(max_length=255, null=True, blank=True)  # For location selection
+    location_county = models.CharField(max_length=255, null=True, blank=True)
+    location_city = models.CharField(max_length=255, null=True, blank=True)
+    # location_areas = models.TextField(null=True, blank=True)  # Comma-separated areas
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
