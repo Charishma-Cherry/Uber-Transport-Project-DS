@@ -41,6 +41,10 @@ update_status = RideViewSet.as_view({
     'patch': 'update_status'
 })
 
+ride_history = RideViewSet.as_view({
+    'get': 'ride_history'  # Define a `ride_history` action in your viewset
+})
+
 
 urlpatterns = [
     # List all rides and create a new ride
@@ -68,6 +72,8 @@ urlpatterns = [
 
     # Update ride status
     path('<int:pk>/status/', update_status, name='update-status'),
+
+    path('history/', ride_history, name='ride-history'),
 ]
 
 

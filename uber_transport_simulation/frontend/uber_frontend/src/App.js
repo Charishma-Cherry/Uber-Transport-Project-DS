@@ -16,6 +16,7 @@ import RideBookingForm from './components/Rides/RideBookingForm';
 import RideManagement from './components/Driver/RideManagement'; // New Page
 import Earnings from './components/Driver/Earnings'; // New Page
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RideHistory from './components/Rides/RideHistory';
 
 
 function App() {
@@ -50,6 +51,16 @@ function App() {
             <RideBookingForm />
           </PrivateRoute>
           } />
+
+
+        <Route
+            path="/user/ride-history" // Added RideHistory route
+            element={
+              <PrivateRoute>
+                <RideHistory />
+              </PrivateRoute>
+            }
+          />
 
 
 

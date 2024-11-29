@@ -27,6 +27,11 @@ class RideViewSet(viewsets.ModelViewSet):
            "ride": serializer.data  # Include the serialized ride data
        }
        return Response(response_data, status=status.HTTP_201_CREATED)
+   
+   def get(self, request):
+        rides = Ride.objects.filter(user=request.user)
+        serializer = RideSerializer(rides, many=True)
+        return Response(serializer.data)
 
 
    def update(self, request, *args, **kwargs):
@@ -111,6 +116,23 @@ class RideViewSet(viewsets.ModelViewSet):
                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
            )
        return Response({"message": "Ride status updated successfully", "status": ride.status})
+   
+   @action(detail=False, methods=['get'], url_path='history')
+   def ride_history(self, request):
+        try:
+            # Assuming you want to fetch the ride history for the logged-in user
+            rides = Ride.objects.filter(customer=request.user).values(
+                'ride_id', 'pickup_location', 'dropoff_location', 'pickup_datetime','distance', 'fare', 'status'
+            )
+            return Response(rides, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"Error in ride_history: {e}")  # Log the error for debugging
+            return Response(
+                {"error": "Failed to fetch ride history"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+   
+    
 
 
    def perform_create(self, serializer):
