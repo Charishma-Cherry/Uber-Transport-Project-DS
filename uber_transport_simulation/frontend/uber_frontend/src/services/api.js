@@ -18,15 +18,6 @@ axiosInstance.interceptors.request.use(
       config.headers['Authorization'] = `Token ${token}`;
     }
 
-    // // Conditionally set content-type only when sending form data
-    // if (config.headers['Content-Type'] === 'multipart/form-data') {
-    //   // Do not modify for form-data requests
-    //   return config;
-    // } else {
-    //   config.headers['Content-Type'] = 'application/json'; // Default to application/json
-    // }
-
-    // Only set Content-Type for JSON requests, let FormData handle it automatically
     if (!(config.data instanceof FormData)) {
       config.headers['Content-Type'] = 'application/json'; // Default to application/json
     }
@@ -36,6 +27,22 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem('token');
+//     // Only attach token for authenticated routes, not for signup/login
+//     if (token && !config.url.includes('/signup') && !config.url.includes('/login')) {
+//       config.headers['Authorization'] = `Token ${token}`;
+//     }
+//     // Ensure Content-Type is set appropriately
+//     if (!(config.data instanceof FormData)) {
+//       config.headers['Content-Type'] = 'application/json';
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
 
 // Define API endpoint paths for driver-related operations
@@ -48,6 +55,7 @@ export const endpoints = {
   DRIVER_LOGIN: '/drivers/login/',         // Endpoint for driver login
   DRIVER_PROFILE: (driverId) => `/drivers/${driverId}/profile/`, // Endpoint for fetching driver profile by driver ID
   DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
+  DRIVER_LOCATION_UPDATE: '/drivers/update_location/', // New endpoint for updating driver location
 };
 
 // Export the configured axios instance for use in other parts of the application

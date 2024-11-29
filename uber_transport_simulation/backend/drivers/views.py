@@ -15,8 +15,9 @@ from rest_framework.permissions import AllowAny
 
 
 class DriverSignupView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
-        print(request.data)
+        print("Signup Request Data:", request.data)  # Log the incoming request data
         serializer = DriverSignupSerializer(data=request.data)
         if serializer.is_valid():
             try:
@@ -25,7 +26,7 @@ class DriverSignupView(APIView):
                 
                 # Create a token for the new driver
                 token, created = Token.objects.get_or_create(user=driver.user)
-                
+                print("Token Created:", token.key) 
                 # Return response with token, driver_id, and driver profile data
                 return Response({
                     "message": "Driver registered successfully!",
@@ -124,3 +125,40 @@ class DriverDeleteProfileView(APIView):
             return Response({"message": "Profile deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
         except Driver.DoesNotExist:
             return Response({"error": "Driver not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class DriverLocationUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def patch(self, request):
+        try:
+            # Ensure the authenticated user is a driver
+            driver = request.user.driver
+        except Driver.DoesNotExist:
+            return Response({"error": "Driver not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Update location fields
+        data = request.data
+        driver.location_state = data.get('location_state', driver.location_state)
+        driver.location_county = data.get('location_county', driver.location_county)
+        driver.location_city = data.get('location_city', driver.location_city)
+        # # Handle location_areas safely
+        # location_areas = data.get('location_areas', [])
+        # if location_areas:
+        #     driver.location_areas = ', '.join(location_areas)
+        # elif driver.location_areas:
+        #     driver.location_areas = driver.location_areas  # Keep the existing value
+        # else:
+        #     driver.location_areas = ''  # Set to an empty string if None
+
+        driver.save()
+
+        return Response({
+            "message": "Location updated successfully",
+            "location_state": driver.location_state,
+            "location_county": driver.location_county,
+            "location_city": driver.location_city,
+            # "location_areas": driver.location_areas,
+        }, status=status.HTTP_200_OK)
+
+
