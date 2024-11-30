@@ -14,7 +14,7 @@ class Ride(models.Model):
 
    ride_id = models.AutoField(primary_key=True)  # Unique ride identifier
    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rides')
-   driver = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name='rides', null=True, blank=True)
+   driver = models.ForeignKey(Driver, null=True, blank=True, on_delete=models.SET_NULL)
    customer_name = models.CharField(max_length=255, null=True, blank=True)  # Store customer name
    customer_profile_id = models.CharField(max_length=11, null=True, blank=True)  # Store customer ID
    driver_name = models.CharField(max_length=255, null=True, blank=True)  # Store driver name
@@ -32,13 +32,13 @@ class Ride(models.Model):
 
    def save(self, *args, **kwargs):
        # Populate name and ID fields before saving
-       if self.customer:
-           self.customer_name = self.customer.profile.name
-           self.customer_profile_id = self.customer.profile.customer_id
-       if self.driver:
-           self.driver_name = f"{self.driver.first_name} {self.driver.last_name}"
-           self.driver_unique_id = self.driver.driver_id
-       super().save(*args, **kwargs)
+        if self.customer:
+            self.customer_name = self.customer.profile.name
+            self.customer_profile_id = self.customer.profile.customer_id
+        if self.driver:
+            self.driver_name = f"{self.driver.first_name} {self.driver.last_name}"
+            self.driver_unique_id = self.driver.driver_id
+        super().save(*args, **kwargs)
 
 
    def __str__(self):

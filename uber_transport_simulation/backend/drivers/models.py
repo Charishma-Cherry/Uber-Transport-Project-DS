@@ -2,6 +2,12 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 
+AVAILABLE_STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('unavailable', 'Unavailable'),
+    ]
+
+
 class Driver(models.Model):
     # Link to Django's User model
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
@@ -30,6 +36,13 @@ class Driver(models.Model):
     location_state = models.CharField(max_length=255, null=True, blank=True)  # For location selection
     location_county = models.CharField(max_length=255, null=True, blank=True)
     location_city = models.CharField(max_length=255, null=True, blank=True)
+    available_status = models.CharField(
+        max_length=15,
+        choices=AVAILABLE_STATUS_CHOICES,
+        default='unavailable',
+        help_text="Indicates whether the driver is available for rides"
+    )
+
     # location_areas = models.TextField(null=True, blank=True)  # Comma-separated areas
 
     def __str__(self):

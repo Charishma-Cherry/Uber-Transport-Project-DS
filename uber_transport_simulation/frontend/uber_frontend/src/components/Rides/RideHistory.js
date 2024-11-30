@@ -104,6 +104,7 @@ function RideHistory() {
           headers: { Authorization: `Token ${token}` },
         });
         setRideHistory(response.data); // Assuming response data is an array of ride objects
+        console.log(response.data)
       } catch (error) {
         console.error('Error fetching ride history:', error);
         alert('Failed to fetch ride history. Please try again.');
@@ -234,3 +235,7 @@ function RideHistory() {
 }
 
 export default RideHistory;
+
+
+
+
