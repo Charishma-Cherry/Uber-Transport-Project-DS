@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
 
 
+
 function App() {
   return (<AuthProvider>
     <Router>

@@ -33,3 +33,7 @@ uber_transport_simulation/frontend/uber_frontend/package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/uber_transport_simulation/backend/rides/migrations
+/uber_transport_simulation/backend/billing/migrations
+/uber_transport_simulation/uberproj
+/uber_transport_simulation/backend/rides/migrations
