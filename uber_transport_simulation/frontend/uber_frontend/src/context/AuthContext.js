@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
-
+      // localStorage.setItem('userType', 'driver');
       setUser(user);
       console.log('Login successful, user set:', user);
       return true;

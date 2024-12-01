@@ -53,17 +53,17 @@ export const endpoints = {
 };
 
 // // Function to fetch driver-specific rides
-// export const fetchDriverRides = async () => {
-//   try {
-//     console.log('Sending request to fetch driver rides...');
-//     const response = await axiosInstance.get(endpoints.DRIVER_RIDES);
-//     console.log('Driver rides response:', response);
-//     return response.data; // Return the fetched rides data
-//   } catch (error) {
-//     console.error('Error fetching driver rides:', error);
-//     throw error; // Propagate the error for handling in the caller
-//   }
-// };
+export const fetchDriverRides = async () => {
+  try {
+    console.log('Sending request to fetch driver rides...');
+    const response = await axiosInstance.get(endpoints.DRIVER_RIDES);
+    console.log('Driver rides response:', response);
+    return response.data; // Return the fetched rides data
+  } catch (error) {
+    console.error('Error fetching driver rides:', error);
+    throw error; // Propagate the error for handling in the caller
+  }
+};
 
 // Export the configured axios instance for use in other parts of the application
 export default axiosInstance;
