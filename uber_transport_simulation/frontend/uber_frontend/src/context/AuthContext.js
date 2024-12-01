@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
 
-    const userType = localStorage.getItem('userType');  // Get user type (driver, customer, etc.)
+    // const userType = localStorage.getItem('userType');  // Get user type (driver, customer, etc.)
 
     
     if (token && storedUser) {
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
-      // localStorage.setItem('userType', 'driver');
+      localStorage.setItem('userType', 'user');
       setUser(user);
       console.log('Login successful, user set:', user);
       return true;
