@@ -18,14 +18,6 @@ axiosInstance.interceptors.request.use(
       config.headers['Authorization'] = `Token ${token}`;
     }
 
-    // // Conditionally set content-type only when sending form data
-    // if (config.headers['Content-Type'] === 'multipart/form-data') {
-    //   // Do not modify for form-data requests
-    //   return config;
-    // } else {
-    //   config.headers['Content-Type'] = 'application/json'; // Default to application/json
-    // }
-
     // Only set Content-Type for JSON requests, let FormData handle it automatically
     if (!(config.data instanceof FormData)) {
       config.headers['Content-Type'] = 'application/json'; // Default to application/json

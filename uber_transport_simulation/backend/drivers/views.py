@@ -162,32 +162,3 @@ class DriverLocationUpdateView(APIView):
             "location_city": driver.location_city,
             # "location_areas": driver.location_areas,
         }, status=status.HTTP_200_OK)
-
-
-
-class CheckNearbyDriversView(APIView):
-    """
-    API to fetch nearby available drivers based on the pickup location city.
-    """
-
-    def post(self, request):
-        try:
-            # Get the city from the request payload
-            location_city = request.data.get('location_city', None)
-            
-            if not location_city:
-                return Response({'error': 'Location city is required'}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Query drivers with matching city and available status
-            drivers = Driver.objects.filter(location_city__iexact=location_city, available_status='available')
-
-            # Return driver IDs
-            driver_ids = drivers.values_list('driver_id', flat=True)
-
-            if not driver_ids:
-                return Response({'drivers': [], 'message': 'No drivers available in this location'}, status=status.HTTP_200_OK)
-            
-            return Response({'drivers': list(driver_ids)}, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
