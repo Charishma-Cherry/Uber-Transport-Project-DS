@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './LandingPage.css';
 import '../src/components/User/Signup';
 import '../src/components/User/Login';
+import '../src/components/Admin/AdminSignup';
+import '../src/components/Admin/AdminLogin';
 
 function LandingPage() {
     return (
@@ -21,6 +23,12 @@ function LandingPage() {
                     </Link>
                     <Link to="/driver/login" className="landing-option">
                         Already a Driver? Sign in to ride. <span className="arrow">→</span>
+                    </Link>
+                    <Link to="/admin/signup" className="landing-option">
+                        New Admin? Sign up here! <span className="arrow">→</span>
+                    </Link>
+                    <Link to="/admin/login" className="landing-option">
+                        Admin? Login here! <span className="arrow">→</span>
                     </Link>
                 </div>
             </div>

@@ -15,6 +15,12 @@ import DriverLocationSelection from './components/Driver/DriverLocationSelection
 import RideBookingForm from './components/Rides/RideBookingForm';
 import RideManagement from './components/Driver/RideManagement'; // New Page
 import Earnings from './components/Driver/Earnings'; // New Page
+import AdminSignup from './components/Admin/AdminSignup';
+import AdminLogin from './components/Admin/AdminLogin';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminProfile from './components/Admin/AdminProfile';
+import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
+import ManageUsers from './components/Admin/ManageUsers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -52,9 +58,24 @@ function App() {
           } />
 
 
-
-
-
+      {/* Admin routes */}
+      <Route path="/admin/signup" element={<AdminSignup />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            <AdminPrivateRoute>
+              <AdminDashboard />
+            </AdminPrivateRoute>
+          } />
+          <Route path="/admin/profile" element={
+            <AdminPrivateRoute>
+              <AdminProfile />
+            </AdminPrivateRoute>
+          } />
+          <Route path="/admin/manage-users" element={
+            <AdminPrivateRoute>
+              <ManageUsers />  
+            </AdminPrivateRoute>
+          } />
 
       </Routes>
     </Router>

@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny 
 from django.contrib.auth import authenticate
 from .models import UserProfile, User
 from rest_framework.permissions import AllowAny
@@ -17,6 +17,14 @@ class UserViewSet(viewsets.ModelViewSet):
     def signup(self, request):
         print("Signup data received:", request.data)
         try:
+            # Check if the username already exists
+            if User.objects.filter(username=request.data['username']).exists():
+                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Check if the email already exists
+            if User.objects.filter(email=request.data['email']).exists():
+                return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            
             user = User.objects.create_user(username=request.data['username'], password=request.data['password'], email=request.data['email'])
             user.profile, created  = UserProfile.objects.update_or_create(
             user=user,
@@ -84,3 +92,4 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Profile deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
