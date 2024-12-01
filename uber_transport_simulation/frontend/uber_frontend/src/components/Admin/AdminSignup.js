@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../services/api';
 import { Button, Form } from 'react-bootstrap';
-import './Signup.css'; // Import custom CSS for the Signup page
-import { endpoints } from '../../services/api';
+import api, { endpoints } from '../../services/api';
+import './AdminSignup.css';
 
-const Signup = () => {
+
+const AdminSignup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone_number, setPhoneNumber] = useState(''); // New field for phone number
-  const [address, setAddress] = useState(''); // New field for address
-  const [city, setCity] = useState(''); // New field for city
-  const [state, setState] = useState(''); // New field for state
-  const [zip_code, setZipCode] = useState(''); // New field for zip code
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone_number, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zip_code, setZipCode] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-
-  // List of US states for dropdown
   const states = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", 
     "Colorado", "Connecticut", "Delaware", "Florida", 
@@ -41,69 +41,74 @@ const Signup = () => {
     setError('');
     setMessage('');
 
-    // Validation checks
+    // Basic validation
     if (username.length < 3) {
-        return setError('Username must be at least 3 characters long.');
-      }
-  
-      if (!/^\d{10}$/.test(phone_number)) {
-        return setError('Phone number must be exactly 10 digit number');
-      }
-  
-      if (!/^\d{5}$/.test(zip_code)) {
-        return setError('Zip code must be exactly 5 digits number');
-      }
-  
-      if (state.length > 100) {
-        return setError('State name cannot exceed 100 characters.');
-      }
+      return setError('Username must be at least 3 characters long.');
+    }
 
+    if (!/^\d{10}$/.test(phone_number)) {
+      return setError('Phone number must be exactly 10 digits.');
+    }
+
+    if (!/^\d{5}$/.test(zip_code)) {
+      return setError('Zip code must be exactly 5 digits.');
+    }
+
+    if (state.length > 100) {
+      return setError('State name cannot exceed 100 characters.');
+    }
+
+    console.log('Form Data:', { username, email, password, first_name: firstName, last_name: lastName, phone_number, address, city, state, zip_code });
 
 
     try {
-      const response = await api.post(endpoints.signup, {
+      // Temporarily remove Authorization header for this request
+      delete api.defaults.headers.common['Authorization'];
+
+      // API call to sign up admin without the token
+      const response = await api.post(endpoints.ADMIN_SIGNUP, {
         username,
         email,
         password,
+        first_name: firstName,
+        last_name: lastName,
         phone_number,
         address,
         city,
         state,
         zip_code,
       });
-      
-      // Check if signup was successful
+
       if (response.status === 201) {
-        setMessage('Signup successful! Redirecting to login...');
-        
-        // Redirect after a short delay
+        setMessage('Admin signup successful! Redirecting to login...');
         setTimeout(() => {
-          navigate('/user/login');
+          navigate('/admin/login');
         }, 2000);
       }
     } catch (error) {
-      console.error('Signup error:', error.response ? error.response.data : error);
-    if (error.response && error.response.status === 400) {
-        // Assuming the backend returns a specific message for existing usernames
+      console.error('Admin signup error:', error.response ? error.response.data : error);
+      if (error.response && error.response.status === 400) {
         const errorData = error.response.data;
         if (errorData.error) {
           setError(errorData.error);
-        }
-        else if (error.response.data.username) {
+        } else if (errorData.username) {
           setError('Username already exists.');
         } else {
           setError('Signup failed. Please check your input and try again.');
-        } 
-      } 
+        }
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     }
   };
 
   return (
-    <div className="signup-container">
-      <h2>Sign Up</h2>
+    <div className="admin-signup-container">
+      <h2>Admin Sign Up</h2>
       {error && <p className="text-danger">{error}</p>}
       {message && <p className="text-success">{message}</p>}
       <Form onSubmit={handleSubmit}>
+        {/* Form Fields (username, email, etc.) */}
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -134,7 +139,28 @@ const Signup = () => {
           />
         </Form.Group>
 
-        {/* Additional fields */}
+        <Form.Group controlId="formFirstName">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter your first name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formLastName">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter your last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </Form.Group>
+
         <Form.Group controlId="formPhoneNumber">
           <Form.Label>Phone Number</Form.Label>
           <Form.Control
@@ -169,7 +195,7 @@ const Signup = () => {
         <Form.Group controlId="formState">
           <Form.Label>State</Form.Label>
           <Form.Control
-            as="select" // Use a dropdown for states
+            as="select"
             value={state}
             onChange={(e) => setState(e.target.value)}
           >
@@ -191,14 +217,10 @@ const Signup = () => {
           />
         </Form.Group>
 
-        {/* Submit Button */}
-        <Button variant="primary" type="submit" className="mt-3">Sign Up</Button>
+        <Button variant="primary" type="submit" className="mt-3">Sign Up as Admin</Button>
       </Form>
     </div>
   );
 };
 
-export default Signup;
-
-
-
+export default AdminSignup;

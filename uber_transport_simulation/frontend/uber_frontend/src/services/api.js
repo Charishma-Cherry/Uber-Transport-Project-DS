@@ -10,40 +10,25 @@ const axiosInstance = axios.create({
   baseURL: API_URL + 'api/', // Set the base URL for all requests
 });
 
-// Add a request interceptor to include the authorization token in headers
+
 axiosInstance.interceptors.request.use(
   (config) => {
+    console.log('Request Config:', config);
     const token = localStorage.getItem('token');
-    if (token) {
+    
+    // Add token only for authenticated routes (exclude signup and login)
+    if (token &&  !config.url.includes('/signup') && !config.url.includes('/login')) {
       config.headers['Authorization'] = `Token ${token}`;
     }
 
     if (!(config.data instanceof FormData)) {
-      config.headers['Content-Type'] = 'application/json'; // Default to application/json
+      config.headers['Content-Type'] = 'application/json';
     }
-
 
     return config;
   },
   (error) => Promise.reject(error)
 );
-
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem('token');
-//     // Only attach token for authenticated routes, not for signup/login
-//     if (token && !config.url.includes('/signup') && !config.url.includes('/login')) {
-//       config.headers['Authorization'] = `Token ${token}`;
-//     }
-//     // Ensure Content-Type is set appropriately
-//     if (!(config.data instanceof FormData)) {
-//       config.headers['Content-Type'] = 'application/json';
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
-
 
 // Define API endpoint paths for driver-related operations
 
@@ -58,21 +43,28 @@ export const endpoints = {
   DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
   DRIVER_LOCATION_UPDATE: '/drivers/update_location/', // New endpoint for updating driver location
   DRIVER_RIDES: '/driver-rides/',         // New endpoint for fetching rides for the driver
-
+  ADMIN_SIGNUP: '/admins/signup/',
+  ADMIN_LOGIN: '/admins/login/',
+  ADMIN_PROFILE: '/admins/profile/',
+  ADMIN_UPDATE_PROFILE: '/admins/update_profile/',
+  MANAGE_USERS: '/admins/manage-users/',
+  // MANAGE_DRIVERS: '/admins/manage-drivers/',
+  // MANAGE_BILLS: '/admins/manage-bills/',
 };
 
-// Function to fetch driver-specific rides
-export const fetchDriverRides = async () => {
-  try {
-    console.log('Sending request to fetch driver rides...');
-    const response = await axiosInstance.get(endpoints.DRIVER_RIDES);
-    console.log('Driver rides response:', response);
-    return response.data; // Return the fetched rides data
-  } catch (error) {
-    console.error('Error fetching driver rides:', error);
-    throw error; // Propagate the error for handling in the caller
-  }
-};
+// // Function to fetch driver-specific rides
+// export const fetchDriverRides = async () => {
+//   try {
+//     console.log('Sending request to fetch driver rides...');
+//     const response = await axiosInstance.get(endpoints.DRIVER_RIDES);
+//     console.log('Driver rides response:', response);
+//     return response.data; // Return the fetched rides data
+//   } catch (error) {
+//     console.error('Error fetching driver rides:', error);
+//     throw error; // Propagate the error for handling in the caller
+//   }
+// };
 
 // Export the configured axios instance for use in other parts of the application
 export default axiosInstance;
+

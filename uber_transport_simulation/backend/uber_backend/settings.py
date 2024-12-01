@@ -26,8 +26,9 @@ INSTALLED_APPS = [
     'corsheaders',  
     'drivers',
     'billing',
-    'rides',
-    
+    'rides', 
+    'admin_panel',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

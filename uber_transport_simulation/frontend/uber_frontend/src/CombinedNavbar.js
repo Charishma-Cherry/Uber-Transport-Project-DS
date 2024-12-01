@@ -7,11 +7,11 @@ import './CombinedNavbar.css';
 const CombinedNavbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const userType = localStorage.getItem('userType');
   const loggedIn = localStorage.getItem('token');
   const isUserRoute = window.location.pathname.startsWith('/user');
   const isDriverRoute = window.location.pathname.startsWith('/driver');
+  const isAdminRoute = window.location.pathname.startsWith('/admin');
 
   const handleLogout = () => {
     logout();
@@ -25,6 +25,7 @@ const CombinedNavbar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+            
             {/* Driver Logout Button - Always display if logged in and on driver route */}
             {userType === 'driver' && isDriverRoute && loggedIn && (
               <>
@@ -61,6 +62,16 @@ const CombinedNavbar = () => {
                 </>
               )
             )}
+            
+            {/* Admin-specific links */}
+            {isAdminRoute && loggedIn && (
+              <>
+                <Nav.Link as={Link} to="/admin/dashboard">Dashboard</Nav.Link>
+                <Nav.Link as={Link} to="/admin/profile">Profile</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>
+            )}
+
           </Nav>
         </Navbar.Collapse>
       </Container>

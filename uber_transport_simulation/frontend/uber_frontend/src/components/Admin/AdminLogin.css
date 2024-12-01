@@ -1,0 +1,89 @@
+/* Admin Login Styles */
+
+.login-container {
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+  }
+  
+  .login-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  .form-group input:focus {
+    border-color: #4caf50;
+    outline: none;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 20px;
+    }
+  
+    .login-container h2 {
+      font-size: 1.5rem;
+    }
+  
+    button[type="submit"] {
+      padding: 10px;
+    }
+  }
+  

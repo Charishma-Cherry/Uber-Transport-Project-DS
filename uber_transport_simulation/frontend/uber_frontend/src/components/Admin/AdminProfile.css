@@ -1,0 +1,91 @@
+/* Admin Profile Page Styles */
+
+.admin-profile-container {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 50px auto;
+  }
+  
+  .admin-profile-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  .form-group input:focus {
+    border-color: #4caf50;
+    outline: none;
+  }
+  
+  button[type="submit"], .btn-danger {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  button.btn-danger {
+    background-color: #f44336;
+    color: white;
+    margin-top: 15px;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #d32f2f;
+  }
+  
+  .mt-3 {
+    margin-top: 15px;
+  }
+  
+  @media (max-width: 480px) {
+    .admin-profile-container {
+      padding: 20px;
+    }
+  
+    .admin-profile-container h2 {
+      font-size: 1.5rem;
+    }
+  
+    button[type="submit"], .btn-danger {
+      padding: 10px;
+    }
+  }
+  
