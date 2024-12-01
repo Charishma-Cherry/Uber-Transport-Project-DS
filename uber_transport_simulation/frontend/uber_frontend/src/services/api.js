@@ -31,6 +31,7 @@ axiosInstance.interceptors.request.use(
 );
 
 // Define API endpoint paths for driver-related operations
+
 export const endpoints = {
   login: '/customers/login/',
   signup: '/customers/signup/',
@@ -41,6 +42,7 @@ export const endpoints = {
   DRIVER_PROFILE: (driverId) => `/drivers/${driverId}/profile/`, // Endpoint for fetching driver profile by driver ID
   DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
   DRIVER_LOCATION_UPDATE: '/drivers/update_location/', // New endpoint for updating driver location
+  DRIVER_RIDES: '/driver-rides/',         // New endpoint for fetching rides for the driver
   ADMIN_SIGNUP: '/admins/signup/',
   ADMIN_LOGIN: '/admins/login/',
   ADMIN_PROFILE: '/admins/profile/',
@@ -49,6 +51,19 @@ export const endpoints = {
   // MANAGE_DRIVERS: '/admins/manage-drivers/',
   // MANAGE_BILLS: '/admins/manage-bills/',
 };
+
+// // Function to fetch driver-specific rides
+// export const fetchDriverRides = async () => {
+//   try {
+//     console.log('Sending request to fetch driver rides...');
+//     const response = await axiosInstance.get(endpoints.DRIVER_RIDES);
+//     console.log('Driver rides response:', response);
+//     return response.data; // Return the fetched rides data
+//   } catch (error) {
+//     console.error('Error fetching driver rides:', error);
+//     throw error; // Propagate the error for handling in the caller
+//   }
+// };
 
 // Export the configured axios instance for use in other parts of the application
 export default axiosInstance;

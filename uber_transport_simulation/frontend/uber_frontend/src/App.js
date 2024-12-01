@@ -22,6 +22,8 @@ import AdminProfile from './components/Admin/AdminProfile';
 import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
 import ManageUsers from './components/Admin/ManageUsers';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RideHistory from './components/Rides/RideHistory';
+
 
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
           } />
 
 
+
       {/* Admin routes */}
       <Route path="/admin/signup" element={<AdminSignup />} />
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -76,6 +79,14 @@ function App() {
               <ManageUsers />  
             </AdminPrivateRoute>
           } />
+        <Route
+            path="/user/ride-history" // Added RideHistory route
+            element={
+              <PrivateRoute>
+                <RideHistory />
+              </PrivateRoute>
+            }
+          />
 
       </Routes>
     </Router>

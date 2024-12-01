@@ -142,6 +142,7 @@ class DriverLocationUpdateView(APIView):
         driver.location_state = data.get('location_state', driver.location_state)
         driver.location_county = data.get('location_county', driver.location_county)
         driver.location_city = data.get('location_city', driver.location_city)
+        driver.available_status = 'available'
         # # Handle location_areas safely
         # location_areas = data.get('location_areas', [])
         # if location_areas:

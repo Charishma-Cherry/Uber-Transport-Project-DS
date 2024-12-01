@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import './DriverLocationSelection.css'; // Import the CSS file for styling
 
 const DriverLocationSelection = () => {
   const [states, setStates] = useState([]); // List of states
@@ -113,9 +115,9 @@ const DriverLocationSelection = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="location-selection-container">
       <h2>Select Location you are willing to drive today</h2>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="form-group">
         <label>
           <strong>Country:</strong>
         </label>
@@ -125,7 +127,7 @@ const DriverLocationSelection = () => {
           isDisabled
         />
       </div>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="form-group">
         <label>
           <strong>State:</strong>
         </label>
@@ -136,7 +138,7 @@ const DriverLocationSelection = () => {
           placeholder="Select a state"
         />
       </div>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="form-group">
         <label>
           <strong>County:</strong>
         </label>
@@ -148,7 +150,7 @@ const DriverLocationSelection = () => {
           isDisabled={!selectedState}
         />
       </div>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="form-group">
         <label>
           <strong>City:</strong>
         </label>
@@ -160,15 +162,13 @@ const DriverLocationSelection = () => {
           isDisabled={!selectedState}
         />
       </div>
-      <button onClick={handleSave} style={{ padding: "10px 20px", marginBottom: "20px" }}>
-        Save
-      </button>
+      <button onClick={handleSave}>Save</button>
       {locationSaved && (
-        <div style={{ marginTop: "20px", color: "green" }}>
+        <div className="success-message">
           <strong>Location selected successfully!</strong>
         </div>
       )}
-      <div style={{ marginTop: "20px" }}>
+      <div className="selected-location">
         <h3>Location willing to drive:</h3>
         <p>{selectedLocation || "No location selected"}</p>
       </div>
@@ -177,5 +177,3 @@ const DriverLocationSelection = () => {
 };
 
 export default DriverLocationSelection;
-
-
