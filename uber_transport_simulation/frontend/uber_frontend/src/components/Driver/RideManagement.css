@@ -1,0 +1,79 @@
+/* Box for the entire Ride Management content */
+.ride-management-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff; /* White background for the box */
+    border: 2px solid #e5e7eb; /* Light gray border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for the box */
+    font-family: Arial, sans-serif;
+}
+
+/* Center-align the title */
+.ride-management-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center; /* Center the heading */
+}
+
+/* Table styles */
+.ride-management-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+/* Table Header */
+.ride-management-table th {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    font-weight: 600;
+    padding: 1.2rem;
+    text-align: left;
+}
+
+/* Table Rows */
+.ride-management-table td {
+    padding: 1.2rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+/* Alternate row background */
+.ride-management-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect on rows */
+.ride-management-table tr:hover {
+    background-color: #e6f7e9;
+}
+
+/* Green color for "completed" status */
+.status-completed {
+    color: #10B981; /* Bright green */
+    font-weight: bold;
+}
+
+/* Style for other statuses */
+.status-ongoing {
+    color: #F59E0B; /* Amber color for ongoing */
+    font-weight: bold;
+}
+
+.status-requested {
+    color: #3B82F6; /* Blue for requested */
+    font-weight: bold;
+}
+
+.status-canceled {
+    color: #EF4444; /* Red for canceled */
+    font-weight: bold;
+}

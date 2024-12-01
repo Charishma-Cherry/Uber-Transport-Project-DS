@@ -1,0 +1,90 @@
+/* Container for the Location Selection Form */
+.location-selection-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff; /* White background */
+    border: 2px solid #e5e7eb; /* Light gray border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    font-family: Arial, sans-serif;
+}
+
+/* Title Styling */
+.location-selection-container h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* Form Group Styling */
+.location-selection-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.location-selection-container .form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Inputs (Select Dropdowns) */
+.location-selection-container .form-group .css-1s2u09g-control {
+    border: 1px solid #d1d5db; /* Light gray border */
+    border-radius: 6px;
+    box-shadow: none;
+    padding: 10px;
+    font-size: 0.9rem;
+    background-color: #f9f9f9; /* Slightly lighter background */
+}
+
+.location-selection-container .form-group .css-1s2u09g-control:hover {
+    border-color: #4CAF50; /* Green border on hover */
+}
+
+/* Save Button */
+.location-selection-container button {
+    display: block;
+    width: 100%; /* Full-width button */
+    padding: 0.75rem;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.location-selection-container button:hover {
+    background-color: #45A049; /* Darker green on hover */
+}
+
+/* Success Message */
+.location-selection-container .success-message {
+    margin-top: 1rem;
+    color: #10B981; /* Bright green */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Selected Location Display */
+.location-selection-container .selected-location {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.location-selection-container .selected-location h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.location-selection-container .selected-location p {
+    font-size: 1rem;
+    color: #555;
+}

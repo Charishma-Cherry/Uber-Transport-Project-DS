@@ -11,7 +11,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
-    
+    const userType = localStorage.getItem('userType');  // Get user type (driver, customer, etc.)
+
     if (token && storedUser) {
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
       setUser(JSON.parse(storedUser));
@@ -61,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post(endpoints.login, { username: usernameParam, password });
       const { token, user } = response.data;
-      
+      localStorage.setItem('userType', 'driver'); // Store userType for drivers
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       api.defaults.headers.common['Authorization'] = `Token ${token}`;
