@@ -57,6 +57,7 @@ class DriverLoginView(APIView):
 
     def post(self, request):
         # Extract email and password from the request data
+        print(request.data)
         email = request.data.get('email')
         password = request.data.get('password')
 

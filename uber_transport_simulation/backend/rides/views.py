@@ -14,6 +14,7 @@ import logging
 from rest_framework.permissions import IsAuthenticated
 from drivers.models import Driver  # Import the Driver model
 from drivers.serializers import DriverSerializer 
+from .producer import send_message
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -144,6 +145,14 @@ class RideViewSet(viewsets.ModelViewSet):
                 ride.driver.available_status = 'unavailable'
             ride.save()
             driver.save()
+
+            # Kafka code Begin of insert by Charishma 
+            message = {
+                 "ride_id": pk,
+                 "ride_status":new_status,
+            }
+            send_message("rides", message)
+            #End of insert by Charishma
 
             # If the ride is completed, generate billing
             if new_status == 'completed':
