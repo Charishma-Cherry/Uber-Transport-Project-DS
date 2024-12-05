@@ -1,0 +1,24 @@
+.driver-ratings-container {
+    padding: 20px;
+  }
+  
+  .ratings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .ratings-table th, .ratings-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .ratings-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+  }
+  
+  .ratings-table td div {
+    margin-bottom: 4px;
+  }
+  

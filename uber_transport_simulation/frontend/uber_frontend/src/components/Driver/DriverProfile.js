@@ -220,8 +220,9 @@ function DriverProfile() {
                         <p><strong>Phone:</strong> {driverData.phone_number}</p>
                         <div className="button-container">
                             <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-                            <button onClick={handleDeleteProfile} className="delete-button">Delete Profile</button>
                             <button onClick={() => navigate(`/driver/${driverId}/select-location`)}> Select Location</button>
+                            <button onClick={() => navigate(`/driver/${driverId}/ratings`)}>My Ratings</button>
+                            <button onClick={handleDeleteProfile} className="delete-button">Delete Profile</button>
                         </div>
                     </>
                 )}

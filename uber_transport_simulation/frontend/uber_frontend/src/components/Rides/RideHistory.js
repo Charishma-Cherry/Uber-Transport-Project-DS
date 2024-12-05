@@ -1,92 +1,4 @@
 
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// function RideHistory() {
-//   const [rideHistory, setRideHistory] = useState([]);
-//   const [loading, setLoading] = useState(false);
-
-//   useEffect(() => {
-//     const fetchRideHistory = async () => {
-//       setLoading(true);
-//       const token = localStorage.getItem('token'); // Fetch token for authentication
-
-//       try {
-//         const response = await axios.get('http://localhost:8000/api/history/', {
-//           headers: { Authorization: `Token ${token}` },
-//         });
-//         setRideHistory(response.data); // Assuming response data is an array of ride objects
-//       } catch (error) {
-//         console.error('Error fetching ride history:', error);
-//         alert('Failed to fetch ride history. Please try again.');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchRideHistory();
-//   }, []);
-
-//   return (
-//     <div style={{
-//       maxWidth: '800px',
-//       margin: '0 auto',
-//       padding: '2rem',
-//       backgroundColor: '#fff',
-//       borderRadius: '8px',
-//       boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-//     }}>
-//       <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>Ride History</h2>
-//       {loading ? (
-//         <p>Loading ride history...</p>
-//       ) : (
-//         <table style={{
-//           width: '100%',
-//           borderCollapse: 'collapse',
-//           marginBottom: '1.5rem',
-//         }}>
-//           <thead>
-//             <tr style={{
-//               backgroundColor: '#f3f4f6',
-//               textAlign: 'left',
-//               borderBottom: '2px solid #e5e7eb',
-//             }}>
-//               <th style={{ padding: '0.75rem' }}>Ride ID</th>
-//               <th style={{ padding: '0.75rem' }}>Pickup Location</th>
-//               <th style={{ padding: '0.75rem' }}>Dropoff Location</th>
-//               <th style={{ padding: '0.75rem' }}>Pickup Time</th>
-//               <th style={{ padding: '0.75rem' }}>Fare</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {rideHistory.length > 0 ? (
-//               rideHistory.map((ride, index) => (
-//                 <tr key={index} style={{ borderBottom: '1px solid #e5e7eb' }}>
-//                   <td style={{ padding: '0.75rem' }}>{ride.ride_id}</td>
-//                   <td style={{ padding: '0.75rem' }}>{ride.pickup_location}</td>
-//                   <td style={{ padding: '0.75rem' }}>{ride.dropoff_location}</td>
-//                   <td style={{ padding: '0.75rem' }}>{new Date(ride.pickup_datetime).toLocaleString()}</td>
-//                   <td style={{ padding: '0.75rem' }}>${ride.fare.toFixed(2)}</td>
-//                 </tr>
-//               ))
-//             ) : (
-//               <tr>
-//                 <td colSpan="4" style={{ textAlign: 'center', padding: '0.75rem' }}>
-//                   No ride history available.
-//                 </td>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default RideHistory;
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -100,7 +12,7 @@ function RideHistory() {
       const token = localStorage.getItem('token'); // Fetch token for authentication
 
       try {
-        const response = await axios.get('http://localhost:8000/api/history/', {
+        const response = await axios.get('http://localhost:8000/api/user/ride-history/', {
           headers: { Authorization: `Token ${token}` },
         });
         setRideHistory(response.data); // Assuming response data is an array of ride objects

@@ -31,7 +31,7 @@ const CombinedNavbar = () => {
               <>
               <Nav.Link as={Link} to={`/driver/${localStorage.getItem('driver_id')}/profile`}>Profile</Nav.Link>
               <Nav.Link as={Link} to="/driver/billing-history">Billing History</Nav.Link>
-              <Nav.Link as={Link} to="/driver/ride-history">Ride History</Nav.Link>
+              <Nav.Link as={Link} to="/driver/completed-rides">Ride History</Nav.Link>
               <Nav.Link as={Link} to="/driver/ride-management">Ride Management</Nav.Link> {/* New Link */}
               <Nav.Link as={Link} to="/driver/earnings">Earnings</Nav.Link> {/* New Link */}
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>

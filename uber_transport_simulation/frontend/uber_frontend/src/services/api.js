@@ -43,6 +43,8 @@ export const endpoints = {
   DRIVER_UPDATE: '/drivers/update_profile/',  // Endpoint for updating driver profile
   DRIVER_LOCATION_UPDATE: '/drivers/update_location/', // New endpoint for updating driver location
   DRIVER_RIDES: '/driver-rides/',         // New endpoint for fetching rides for the driver
+  DRIVER_COMPLETED_RIDES: 'driver/completed-history', // Endpoint for completed rides
+  DRIVER_RATE: (driverId) => `/drivers/${driverId}/rate/`,
   ADMIN_SIGNUP: '/admins/signup/',
   ADMIN_LOGIN: '/admins/login/',
   ADMIN_PROFILE: '/admins/profile/',

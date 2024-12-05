@@ -15,6 +15,9 @@ from rest_framework.permissions import IsAuthenticated
 from drivers.models import Driver  # Import the Driver model
 from drivers.serializers import DriverSerializer 
 
+#from django.core.cache import cache
+
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -166,8 +169,8 @@ class RideViewSet(viewsets.ModelViewSet):
             return Response({"error": "Failed to update ride status."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
    
-    @action(detail=False, methods=['get'], url_path='history')
-    def ride_history(self, request):
+    @action(detail=False, methods=['get'], url_path='user-history')
+    def ride_user_history(self, request):
             try:
                     # Assuming you want to fetch the ride history for the logged-in user
                 rides = Ride.objects.filter(customer=request.user).values(
@@ -181,12 +184,43 @@ class RideViewSet(viewsets.ModelViewSet):
                     {"error": "Failed to fetch ride history"},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
-    
-    
-    def perform_create(self, serializer):
-        serializer.save(customer=self.request.user)
 
+    #---- Ride history using cache----# Cache the response of the ride_history method for each user:
 
+    # @action(detail=False, methods=['get'], url_path='history')
+    # def ride_history(self, request):
+    #     try:
+    #         print(f"Fetching ride history for user {request.user.id}")
+    #         cache_key = f"ride_history_{request.user.id}"
+    #         cached_data = cache.get(cache_key)
+
+    #         if cached_data:
+    #             print(f"Cache hit for {cache_key}")
+    #             return Response(cached_data, status=status.HTTP_200_OK)
+
+    #         print(f"Cache miss for {cache_key}. Querying database.")
+    #         rides = Ride.objects.filter(customer=request.user).values(
+    #             'ride_id', 'pickup_location', 'dropoff_location', 'pickup_datetime', 'distance', 'fare', 'status'
+    #         )
+    #         cache.set(cache_key, list(rides), timeout=300)
+    #         print(f"Cache set for {cache_key}")
+    #         return Response(rides, status=status.HTTP_200_OK)
+    #     except Exception as e:
+    #         logger.error(f"Error in ride_history: {e}")
+    #         return Response(
+    #             {"error": "Failed to fetch ride history"},
+    #             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #         )
+    
+
+    # def perform_create(self, serializer):
+    #     serializer.save(customer=self.request.user)
+
+    # def perform_create(self, serializer):
+    #     ride = serializer.save(customer=self.request.user)
+    #     logger.debug(f"Created ride {ride.ride_id} for user {self.request.user.id}")
+    #     # Invalidate relevant caches
+    #     cache.delete(f"ride_history_{self.request.user.id}")
 
 
     def perform_update(self, serializer):
@@ -258,4 +292,96 @@ class RideViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print(f"Error in driver_rides: {str(e)}")  # Log error for debugging
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False, methods=['get'], url_path='driver/completed-history')
+    def driver_completed_history(self, request):
+        try:
+            print("Driver Completed Rides API hit")
+            print(f"Driver requesting completed rides: {request.user}")
+            # Check if the user has an associated driver profile
+            if not hasattr(request.user, 'driver'):
+                print(f"User {request.user} is not a driver.")
+                return Response(
+                    {"error": "Only drivers can access this endpoint."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
 
+            print(f"Fetching completed rides for driver: {request.user.driver}")
+            
+            # Fetch completed rides
+            completed_rides = Ride.objects.filter(
+                driver=request.user.driver, status='completed'
+            ).values(
+                'ride_id', 'pickup_location', 'dropoff_location',
+                'pickup_datetime', 'distance', 'fare', 'status'
+            )
+            
+            print(f"Completed rides fetched: {list(completed_rides)}")
+            
+            return Response(completed_rides, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(f"Error in driver_completed_history: {e}")
+            return Response(
+                {"error": "Failed to fetch driver completed ride history."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+
+#---- Driver and rides using cache----# 
+
+
+    # @action(detail=False, methods=['get'], url_path='driver-rides')
+    # def driver_rides(self, request):
+    #     try:
+    #         logger.debug(f"Fetching rides for driver {request.user.id}")
+    #         driver = request.user.driver
+    #         cache_key = f"driver_rides_{driver.id}"
+    #         cached_rides = cache.get(cache_key)
+
+    #         if cached_rides:
+    #             print(f"Cache hit for {cache_key}")
+    #             return Response(cached_rides, status=status.HTTP_200_OK)
+
+    #         print(f"Cache miss for {cache_key}. Querying database.")
+    #         rides = Ride.objects.filter(
+    #             pickup_location__icontains=driver.location_city,
+    #         )
+    #         if not rides.exists():
+    #             logger.info(f"No rides found for driver {driver.id}")
+    #             return Response({"message": "No rides found."}, status=status.HTTP_204_NO_CONTENT)
+
+    #         serializer = self.get_serializer(rides, many=True)
+    #         cache.set(cache_key, serializer.data, timeout=300)
+    #         logger.debug(f"Cache set for {cache_key}")
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     except Exception as e:
+    #         logger.error(f"Error in driver_rides: {e}")
+    #         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Driver Completed Rides: Fetch only completed rides for the driver
+    # @action(detail=False, methods=['get'], url_path='driver-completed-history')
+    # def driver_completed_history(self, request):
+    #     try:
+    #         if not hasattr(request.user, 'driver'):
+    #             return Response({"error": "Only drivers can access this endpoint."}, status=status.HTTP_403_FORBIDDEN)
+
+    #         completed_rides = Ride.objects.filter(driver=request.user.driver, status='completed').values(
+    #             'ride_id', 'pickup_location', 'dropoff_location', 'pickup_datetime',
+    #             'distance', 'fare', 'status'
+    #         )
+    #         print("Driver Completed Ride History:", list(completed_rides))  # Debugging
+    #         return Response(completed_rides, status=status.HTTP_200_OK)
+    #     except Exception as e:
+    #         print(f"Error in driver_completed_history: {e}")
+    #         return Response(
+    #             {"error": "Failed to fetch driver completed ride history."},
+    #             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #         )
+
+
+
+
+
+    
