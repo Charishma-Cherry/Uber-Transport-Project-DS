@@ -12,9 +12,11 @@ import DriverSignup from './components/Driver/DriverSignup';
 import DriverProfile from './components/Driver/DriverProfile';
 import DriverLogin from './components/Driver/DriverLogin';
 import DriverLocationSelection from './components/Driver/DriverLocationSelection';
+import RateUser from './components/Driver/RateUser';
+import DriverRatings from './components/Driver/DriverRatings';
+import DriverRideHistory from './components/Driver/DriverRideHistory';
 import RideBookingForm from './components/Rides/RideBookingForm';
 import RideManagement from './components/Driver/RideManagement'; // New Page
-import Earnings from './components/Driver/Earnings'; // New Page
 import AdminSignup from './components/Admin/AdminSignup';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminDashboard from './components/Admin/AdminDashboard';
@@ -23,6 +25,10 @@ import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
 import ManageUsers from './components/Admin/ManageUsers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
+
+
+
+
 
 
 
@@ -37,9 +43,11 @@ function App() {
         <Route path="/driver/login" element={<DriverLogin />} />
         <Route path="/driver/:driverId/select-location" element={<DriverLocationSelection />}/>
         <Route path="/driver/ride-management" element={<RideManagement />} /> {/* New Route */}
-        <Route path="/driver/earnings" element={<Earnings />} /> {/* New Route */}
+        <Route path="/driver/completed-rides" element={<DriverRideHistory />} />
+        <Route path="/driver/:driverId/ratings" element={<DriverRatings />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<Signup />} />
+        <Route path="/rate-user/:rideId" element={<RateUser />} />
         <Route path="/user/dashboard" element={
           <PrivateRoute>
             <Dashboard />
@@ -79,8 +87,8 @@ function App() {
               <ManageUsers />  
             </AdminPrivateRoute>
           } />
-        <Route
-            path="/user/ride-history" // Added RideHistory route
+          <Route
+            path="/user/ride-history"
             element={
               <PrivateRoute>
                 <RideHistory />

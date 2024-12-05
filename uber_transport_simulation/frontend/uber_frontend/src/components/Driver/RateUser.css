@@ -1,0 +1,80 @@
+.rate-user-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rate-user-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.rate-user-container label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.rate-user-container select,
+.rate-user-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.rate-user-container textarea {
+  height: 100px;
+  resize: none;
+}
+
+.rate-user-container .submit-btn {
+  display: inline-block;
+  width: calc(50% - 10px);
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.rate-user-container .submit-btn:hover {
+  background-color: #218838;
+}
+
+.rate-user-container .skip-btn {
+  display: inline-block;
+  width: calc(50% - 10px);
+  padding: 10px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.rate-user-container .skip-btn:hover {
+  background-color: #c82333;
+}
+
+.rate-user-container .error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}

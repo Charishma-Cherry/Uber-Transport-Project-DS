@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile,UserComment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,3 +25,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
+
+
+class UserCommentSerializer(serializers.ModelSerializer):
+    driver_name = serializers.CharField(source='driver.user.username', read_only=True)
+
+    class Meta:
+        model = UserComment
+        fields = ['driver_name', 'rating', 'comment', 'created_at']
