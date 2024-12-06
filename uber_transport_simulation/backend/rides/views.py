@@ -15,7 +15,8 @@ from rest_framework.permissions import IsAuthenticated
 from drivers.models import Driver  # Import the Driver model
 from drivers.serializers import DriverSerializer 
 from .producer import send_message
-
+from drivers.models import Driver  # Import the Driver model
+from rest_framework.decorators import api_view
 #from django.core.cache import cache
 
 
@@ -183,7 +184,7 @@ class RideViewSet(viewsets.ModelViewSet):
             try:
                     # Assuming you want to fetch the ride history for the logged-in user
                 rides = Ride.objects.filter(customer=request.user).values(
-                    'ride_id', 'pickup_location', 'dropoff_location', 'pickup_datetime','distance', 'fare', 'status'
+                    'driver_unique_id','ride_id', 'pickup_location', 'dropoff_location', 'pickup_datetime','distance', 'fare', 'status'
                 )
 
                 return Response(rides, status=status.HTTP_200_OK)
@@ -336,6 +337,30 @@ class RideViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+@api_view(['PATCH'])
+def rate_ride(request, pk):
+    """
+    Endpoint to rate a completed ride.
+    """
+    try:
+        print("Lets enter to the try block of rate a ride")
+        ride = Ride.objects.get(pk=pk)
+        print("ride details ",ride)
+        if ride.status != 'completed':
+            return Response({"error": "Ride is not completed"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        driver = ride.driver
+        print("driver is",driver)
+        rating = request.data.get('rating')
+        print("driver rating is",rating)
+        if not rating:
+            return Response({"error": "Rating is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Assuming Driver model has a method to update ratings
+        driver.update_rating(rating)
+        return Response({"message": "Driver rated successfully"}, status=status.HTTP_200_OK)
+    except Ride.DoesNotExist:
+        return Response({"error": "Ride not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 #---- Driver and rides using cache----# 
@@ -388,6 +413,9 @@ class RideViewSet(viewsets.ModelViewSet):
     #             {"error": "Failed to fetch driver completed ride history."},
     #             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
     #         )
+
+
+
 
 
 

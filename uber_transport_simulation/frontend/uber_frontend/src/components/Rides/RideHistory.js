@@ -1,10 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function RideHistory() {
   const [rideHistory, setRideHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [ratings, setRatings] = useState({});
+  const [ratedRides, setRatedRides] = useState({}); // New state to track rated rides
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRideHistory = async () => {
@@ -17,16 +21,72 @@ function RideHistory() {
         });
         setRideHistory(response.data); // Assuming response data is an array of ride objects
         console.log(response.data)
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching ride history:', error);
         alert('Failed to fetch ride history. Please try again.');
       } finally {
         setLoading(false);
       }
-    };
 
+
+
+      
+    };
+    const storedRatings=localStorage.getItem('ratedRides');
+    if (storedRatings) {
+      setRatedRides(JSON.parse(storedRatings));
+    }
     fetchRideHistory();
   }, []);
+
+
+  const handleRatingChange = (rideId, value) => {
+    setRatings({ ...ratings, [rideId]: value });
+  };
+
+  const submitRating = async (rideId) => {
+    const token = localStorage.getItem('token');
+    console.log("Token is",token)
+    const ride = rideHistory.find(r => r.ride_id === rideId);
+  
+    console.log("Ride is",ride.driver_unique_id)
+    if (!ride) {
+      console.error('Ride not found for ID:', rideId);
+      alert('Ride not found.');
+      return;
+    }
+    console.log("Ride Driver is",ride.driver_unique_id)
+    if (!ride.driver_unique_id) {
+      console.error('Driver details not found for ride ID:', rideId);
+      alert('Driver details not available for this ride.');
+      return;
+    }
+  
+    try {
+      console.log('Submitting rating for driver ID:', ride.driver_unique_id);
+      const response = await axios.patch(`http://localhost:8000/api/rides/${rideId}/rate`, {
+        rating: ratings[rideId],
+        driverId: ride.driver_unique_id  // Ensure this data is sent if needed by the backend
+      }, {
+        headers: { Authorization: `Token ${token}` },
+      });
+      console.log('Rating submitted:', response.data); // Debugging log
+      alert('Rating submitted successfully');
+      const newRatedRides = {...ratedRides, [rideId]: true};
+      setRatedRides(newRatedRides);
+      localStorage.setItem('ratedRides', JSON.stringify(newRatedRides));
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      alert('Failed to submit rating. Please try again.');
+    }
+  };
+
+
+
+
+
+
 
   // CSS-in-JS styles
   const styles = {
@@ -94,6 +154,7 @@ function RideHistory() {
         <table style={styles.table}>
           <thead>
             <tr>
+              <th style={styles.tableHeader}>Driver ID</th>
               <th style={styles.tableHeader}>Ride ID</th>
               <th style={styles.tableHeader}>Pickup Location</th>
               <th style={styles.tableHeader}>Dropoff Location</th>
@@ -101,6 +162,7 @@ function RideHistory() {
               <th style={styles.tableHeader}>Distance</th>
               <th style={styles.tableHeader}>Fare</th>
               <th style={styles.tableHeader}>Status</th>
+              <th style={styles.tableHeader}>Rating</th>
             </tr>
           </thead>
           <tbody>
@@ -112,6 +174,7 @@ function RideHistory() {
                   onMouseEnter={(e) => (e.target.style.backgroundColor = styles.rowHover.backgroundColor)}
                   onMouseLeave={(e) => (e.target.style.backgroundColor = '')}
                 >
+                  <td style={styles.tableCell}>{ride.driver_unique_id || 'N/A'}</td>
                   <td style={styles.tableCell}>{ride.ride_id}</td>
                   <td style={styles.tableCell}>{ride.pickup_location}</td>
                   <td style={styles.tableCell}>{ride.dropoff_location}</td>
@@ -130,6 +193,25 @@ function RideHistory() {
                       {ride.status}
                     </span>
                   </td>
+                  <td>
+                  {ride.status === 'completed' && !ratedRides[ride.ride_id] ? (
+                    <>
+                      <select
+                        value={ratings[ride.ride_id] || ''}
+                        onChange={(e) => handleRatingChange(ride.ride_id, e.target.value)} 
+                      >
+                        <option value="">Rate</option>
+                        {[1, 2, 3, 4, 5].map(score => (
+                          <option key={score} value={score}>{score}</option>
+                        ))}
+                      </select>
+                      <button onClick={() => submitRating(ride.ride_id)}>Submit</button>
+                    </>
+                  ) : (
+                     ride.status === 'completed' ? 'Rating Submitted' : 'N/A'
+                  )
+                    }
+                </td>
                 </tr>
               ))
             ) : (

@@ -40,6 +40,8 @@ const Dashboard = () => {
                 <Button as={Link} to="/user/ride-history" variant="success" className="mx-2">
                     Ride History
                 </Button>
+                <Button as={Link} to="/user/available-rides" variant="success" className="mx-2">Available Rides</Button>
+
                 <Button onClick={handleShowRatings} variant="info" className="mx-2">
                     {showRatings ? 'Hide Ratings' : 'My Ratings'}
                 </Button>

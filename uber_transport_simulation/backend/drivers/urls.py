@@ -22,7 +22,7 @@ from .views import (
     DriverDeleteProfileView,
     DriverLocationUpdateView,
 )
-
+from .views import get_all_drivers
 urlpatterns = [
     path('signup/', DriverSignupView.as_view(), name='driver-signup'),
     path('login/', DriverLoginView.as_view(), name='driver-login'),
@@ -31,4 +31,6 @@ urlpatterns = [
     path('<str:driver_id>/delete_profile/', DriverDeleteProfileView.as_view(), name='driver-delete-profile'),
     path('update_location/', DriverLocationUpdateView.as_view(), name='driver-update-location'),
     path('<str:driver_id>/rate/', DriverRateView.as_view(), name='driver-rate'),
+    path('', get_all_drivers, name='get_all_drivers'),
+
 ]

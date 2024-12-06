@@ -9,6 +9,9 @@ from .serializers import UserProfileSerializer, UserCommentSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework.authentication import TokenAuthentication
+from rides.models import Ride
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -113,3 +116,27 @@ def user_ratings(request):
     except Exception as e:
         return Response({"error": str(e)}, status=500)
 
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_pickup_location(request):
+    print("insoide getuserpickup")
+    customer = request.user
+    print("username",customer)
+    print("Before Authentication:")
+
+    
+    try:
+        print("Inside TRY")
+        # Assuming a user can have multiple rides; we get the most recent one
+        latest_ride = Ride.objects.filter(customer=customer).exclude(status='completed').first()
+        print("After Authentication:",latest_ride)
+        if latest_ride:
+            return Response({'pickup_location': latest_ride.pickup_location})
+        else:
+            return Response({'error': 'No ride found for the user'}, status=404)
+    except Ride.DoesNotExist:
+        return Response({'error': 'No ride found for the user'}, status=404)
+    #return Response({'error': 'User not ****** authenticated'}, status=401)    
+
+        

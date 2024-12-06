@@ -91,7 +91,7 @@
 
 
 from django.urls import path
-from .views import RideViewSet
+from .views import RideViewSet,rate_ride
 
 # Define view actions for the RideViewSet
 ride_list = RideViewSet.as_view({
@@ -155,5 +155,5 @@ urlpatterns = [
     path('statistics/location/', ride_statistics, name='ride-statistics'),
     path('<int:pk>/status/', update_status, name='update-status'),
     path('user/ride-history/', ride_user_history, name='user-ride-history'),
-
+    path('rides/<int:pk>/rate', rate_ride, name='rate-ride'),
 ]

@@ -16,8 +16,30 @@ from rest_framework.permissions import AllowAny
 from users.models import UserComment
 import logging
 from rest_framework.decorators import action  # Add this line
+from rest_framework.decorators import api_view, permission_classes
 
 #from django.core.cache import cache
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_nearby_drivers(request):
+    """
+    API to fetch nearby drivers based on city and pickup location
+    """
+    # Assuming the user's current ride has the pickup location set
+    try:
+        ride = Ride.objects.filter(user=request.user, status='requested').order_by('-pickup_datetime').first()
+        if not ride:
+            return Response({"error": "No active ride request found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        pickup_location_city = ride.pickup_location.split(',')[-1].strip()  # Simplistic approach, adjust as needed
+    except AttributeError:
+        return Response({"error": "Invalid data or no pickup location set"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Filter drivers based on the city extracted from the pickup location
+    drivers = Driver.objects.filter(location_city__iexact=pickup_location_city, available_status='available')
+    serializer = DriverSerializer(drivers, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 logger = logging.getLogger(__name__)
@@ -48,6 +70,21 @@ class DriverSignupView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DriverListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        location_city = request.query_params.get('location_city', None)
+        if location_city:
+            drivers = Driver.objects.filter(location_city__iexact=location_city)
+        else:
+            drivers = Driver.objects.all()
+
+        serializer = DriverSerializer(drivers, many=True)
+        return Response(serializer.data)
+
 
 class DriverProfileView(APIView):
     def get(self, request, driver_id):
@@ -240,3 +277,13 @@ class DriverRateView(APIView):
 #             logger.error(f"Error updating location for driver: {e}")
 #             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def get_all_drivers(request):
+    print("Inside Get All Drivers")
+    city = request.query_params.get('location_city')
+    if city:
+        drivers = Driver.objects.filter(location_city__iexact=city)
+    else:
+        drivers = Driver.objects.all()
+    serializer = DriverSerializer(drivers, many=True)
+    return Response(serializer.data)

@@ -29,6 +29,7 @@ import ManageDrivers from './components/Admin/ManageDrivers';
 import ManageRides from './components/Admin/ManageRides';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
+import AvailableRides from './components/Rides/AvailableRides';
 
 
 function App() {
@@ -109,6 +110,16 @@ function App() {
               </PrivateRoute>
             }
           />
+
+
+<Route
+  path="/user/available-rides"
+  element={
+    <PrivateRoute>
+      <AvailableRides />
+    </PrivateRoute>
+  }
+/>
 
       </Routes>
     </Router>

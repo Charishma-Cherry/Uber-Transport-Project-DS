@@ -29,6 +29,8 @@ class Driver(models.Model):
     car_number = models.CharField(max_length=7)
     car_name = models.CharField(max_length=50)
     rating = models.FloatField(default=0.0, blank=True)
+    num_ratings = models.IntegerField(default=0)  # Number of ratings received
+    total_rating_sum = models.FloatField(default=0.0, blank=True)
     reviews = models.TextField(null=True, blank=True)
     introduction_media = models.FileField(upload_to='driver_introduction_media/', null=True, blank=True)
     rides_history = models.CharField(max_length=255, null=True, blank=True)
@@ -42,6 +44,17 @@ class Driver(models.Model):
         default='unavailable',
         help_text="Indicates whether the driver is available for rides"
     )
+
+
+    def update_rating(self, new_rating):
+        print("Inside Update_rating method",new_rating
+              )
+        self.num_ratings += 1
+        self.total_rating_sum += float(new_rating)
+        self.rating = self.total_rating_sum / self.num_ratings
+        print("rating",self.rating)
+        self.save()
+
 
     # location_areas = models.TextField(null=True, blank=True)  # Comma-separated areas
 
