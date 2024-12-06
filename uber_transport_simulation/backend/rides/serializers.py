@@ -83,6 +83,7 @@ class RideSerializer(serializers.ModelSerializer):
             'customer',
             'customer_name',
             'customer_id',
+            'customer_profile_id',
             'driver',         # Full driver details
             'driver_name',    # Optional, if you want to show only the driver's name as a separate field
             'driver_id',      # Optional, if you want to show only the driver's ID as a separate field
@@ -101,6 +102,7 @@ class RideSerializer(serializers.ModelSerializer):
             'customer',
             'customer_name',
             'customer_id',
+            'customer_profile_id',
             'driver_name',
             'driver_id',
             'status',

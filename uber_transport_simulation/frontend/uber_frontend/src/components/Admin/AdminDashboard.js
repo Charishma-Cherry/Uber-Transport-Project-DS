@@ -16,6 +16,7 @@ const AdminDashboard = () => {
         <Button as={Link} to="/admin/manage-users" variant="success" className="mx-2">Manage Users</Button>
         <Button as={Link} to="/admin/manage-drivers" variant="success" className="mx-2">Manage Drivers</Button>
         <Button as={Link} to="/admin/manage-bills" variant="success" className="mx-2">Manage Bills</Button>
+        <Button as={Link} to="/admin/manage-rides" variant="success" className="mx-2">Manage Rides</Button>
       </div>
     </div>
   );

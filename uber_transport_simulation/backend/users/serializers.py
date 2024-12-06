@@ -9,6 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')  # Fetch username from related User model
+    email = serializers.EmailField(source='user.email')  # Fetch email from related User model
+
     class Meta:
         model = UserProfile
         fields = '__all__' 

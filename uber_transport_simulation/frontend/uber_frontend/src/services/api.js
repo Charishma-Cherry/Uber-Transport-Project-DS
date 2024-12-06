@@ -49,9 +49,24 @@ export const endpoints = {
   ADMIN_LOGIN: '/admins/login/',
   ADMIN_PROFILE: '/admins/profile/',
   ADMIN_UPDATE_PROFILE: '/admins/update_profile/',
-  MANAGE_USERS: '/admins/manage-users/',
-  // MANAGE_DRIVERS: '/admins/manage-drivers/',
-  // MANAGE_BILLS: '/admins/manage-bills/',
+
+  // Managing users in admin panel
+  ADMIN_LIST_CUSTOMERS: '/admins/list_customers/', // Fetch all users
+  ADMIN_ADD_CUSTOMER: '/admins/add_customer/',    // Add a new user
+  ADMIN_UPDATE_CUSTOMER: (customerId) => `/admins/update_customer/${customerId}/`, // Update a user
+  ADMIN_DELETE_CUSTOMER: (customerId) => `/admins/delete_customer/${customerId}/`, // Delete a user
+
+  // Driver management in admin panel
+  ADMIN_LIST_DRIVERS: '/admins/list_drivers/', // Fetch all drivers
+  ADMIN_ADD_DRIVER: '/admins/add_driver/',    // Add a new driver
+  ADMIN_UPDATE_DRIVER: (driverId) => `/admins/update_driver/${driverId}/`, // Update a driver
+  ADMIN_DELETE_DRIVER: (driverId) => `/admins/delete_driver/${driverId}/`, // Delete a driver
+  
+  //Ride management in admin panel
+  ADMIN_LIST_RIDES: '/admins/list_rides/', // Fetch all rides
+  // ADMIN_REVIEW_RIDE: (rideId) => `/admins/review_ride/${rideId}/`, // View details of a specific ride
+  ADMIN_UPDATE_RIDE: (rideId) => `/admins/update_ride/${rideId}/`, // Update a ride
+  ADMIN_DELETE_RIDE: (rideId) => `/admins/delete_ride/${rideId}/`,
 };
 
 // // Function to fetch driver-specific rides

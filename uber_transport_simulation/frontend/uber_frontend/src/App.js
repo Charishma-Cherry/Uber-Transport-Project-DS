@@ -23,6 +23,8 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminProfile from './components/Admin/AdminProfile';
 import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
 import ManageUsers from './components/Admin/ManageUsers';
+import ManageDrivers from './components/Admin/ManageDrivers';
+import ManageRides from './components/Admin/ManageRides';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
 
@@ -87,6 +89,18 @@ function App() {
               <ManageUsers />  
             </AdminPrivateRoute>
           } />
+
+          <Route path="/admin/manage-drivers" element={
+            <AdminPrivateRoute>
+              <ManageDrivers />  
+            </AdminPrivateRoute>
+          } />
+          <Route path="/admin/manage-rides" element={
+            <AdminPrivateRoute>
+              <ManageRides />  
+            </AdminPrivateRoute>
+          } />
+
           <Route
             path="/user/ride-history"
             element={
