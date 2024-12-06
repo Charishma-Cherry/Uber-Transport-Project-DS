@@ -3,12 +3,15 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
-from .models import AdminProfile, User 
+from .models import AdminProfile, User
 from .serializers import AdminProfileSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser, FormParser
 from users.models import UserProfile, User
 from users.serializers import UserSerializer, UserProfileSerializer
+from billing.models import Billing
+from billing.serializers import BillingSerializer
+from django.db.models import Sum, Count
 
 
 class AdminViewSet(viewsets.ModelViewSet):
@@ -191,3 +194,128 @@ class AdminViewSet(viewsets.ModelViewSet):
             return Response({'message': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class AdminBillingViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        """
+        Fetch all bills irrespective of their status.
+        """
+        queryset = Billing.objects.all()  # Fetch all bills
+        serializer = BillingSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    """
+    ViewSet for admin-specific billing operations.
+    """
+    @action(detail=False, methods=['post'], url_path='search')
+    def search_bills(self, request):
+        """
+        Search bills based on customer_name, driver_name, and date range.
+        Admin can view all bills irrespective of their status.
+        """
+        customer_name = request.data.get('customer_name')
+        driver_name = request.data.get('driver_name')
+        from_date = request.data.get('from_date')
+        to_date = request.data.get('to_date')
+
+        # Retrieve all bills
+        queryset = Billing.objects.all()
+
+        # Apply filters if provided
+        if customer_name:
+            queryset = queryset.filter(customer_name__icontains=customer_name)
+        if driver_name:
+            queryset = queryset.filter(driver_name__icontains=driver_name)
+        if from_date:
+            queryset = queryset.filter(date__gte=from_date)
+        if to_date:
+            queryset = queryset.filter(date__lte=to_date)
+
+        # Check if results exist
+        if not queryset.exists():
+            return Response({"message": "No bills found."}, status=status.HTTP_200_OK)
+
+        serializer = BillingSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'], url_path='details')
+    def bill_details(self, request, pk=None):
+        """
+        Admin view detailed information about a specific bill.
+        """
+        print(f"Admin request for bill details: {pk}")
+        try:
+            bill = Billing.objects.get(pk=pk)
+            serializer = BillingSerializer(bill)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Billing.DoesNotExist:
+            print(f"Bill with ID {pk} does not exist.")
+            return Response({"error": "Bill not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['delete'], url_path='delete')
+    def delete_bill(self, request, pk=None):
+        """
+        Admin delete a specific bill by ID.
+        """
+        print(f"Admin delete request for bill ID: {pk}")
+        try:
+            bill = Billing.objects.get(pk=pk)
+            bill.delete()
+            print(f"Bill with ID {pk} deleted successfully.")
+            return Response({"message": "Bill deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+        except Billing.DoesNotExist:
+            print(f"Bill with ID {pk} does not exist.")
+            return Response({"error": "Bill not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=False, methods=['get'], url_path='statistics/revenue-day')
+    def statistics_revenue_per_day(self, request):
+        """
+        Fetch statistics: total revenue per day.
+        """
+        try:
+            statistics = Billing.objects.values('date').annotate(
+                total_revenue=Sum('total_amount')
+            ).order_by('date')
+
+            return Response(statistics, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['get'], url_path='statistics/total-rides-area')
+    def statistics_total_rides_area(self, request):
+        """
+        Fetch statistics: total rides per area.
+        """
+        try:
+            statistics = Billing.objects.values('source_location').annotate(
+                total_rides=Count('billing_id')
+            ).order_by('source_location')
+
+            return Response(statistics, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['get'], url_path='statistics/rides-per-driver')
+    def rides_per_driver(self, request):
+        """
+        Returns the number of rides per driver.
+        """
+        try:
+            rides_stats = Billing.objects.values('driver_name').annotate(total_rides=Count('driver_name')).order_by('-total_rides')
+            return Response(rides_stats, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @action(detail=False, methods=['get'], url_path='statistics/rides-per-customer')
+    def rides_per_customer(self, request):
+        """
+        Returns the number of rides per customer.
+        """
+        try:
+            rides_stats = Billing.objects.values('customer_name').annotate(total_rides=Count('customer_name')).order_by('-total_rides')
+            return Response(rides_stats, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    
+

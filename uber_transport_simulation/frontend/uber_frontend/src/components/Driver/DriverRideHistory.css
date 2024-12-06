@@ -67,4 +67,13 @@
     color: #3B82F6;
     font-weight: bold;
   }
+
+  .total-earnings {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4caf50;
+    text-align: right;
+  }
+  
   
