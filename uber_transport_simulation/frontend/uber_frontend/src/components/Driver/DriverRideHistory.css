@@ -1,0 +1,70 @@
+/* Container for the entire Completed Rides content */
+.completed-rides-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Center-align the title */
+  .completed-rides-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Table styles */
+  .completed-rides-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 1rem;
+  }
+  
+  /* Table Header */
+  .completed-rides-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 600;
+    padding: 1.2rem;
+    text-align: left;
+  }
+  
+  /* Table Rows */
+  .completed-rides-table td {
+    padding: 1.2rem;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+  
+  /* Alternate row background */
+  .completed-rides-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Hover effect on rows */
+  .completed-rides-table tr:hover {
+    background-color: #e6f7e9;
+  }
+  
+  /* Green color for "completed" status */
+  .status-completed {
+    color: #10B981;
+    font-weight: bold;
+  }
+  
+  /* Style for other statuses if needed */
+  .status-requested {
+    color: #3B82F6;
+    font-weight: bold;
+  }
+  

@@ -3,11 +3,13 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from django.contrib.auth import authenticate
-from .models import UserProfile, User
+from .models import UserProfile, User, UserComment
 from rest_framework.permissions import AllowAny
-from .serializers import UserProfileSerializer, UserSerializer
+from .serializers import UserProfileSerializer, UserCommentSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import api_view
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -92,4 +94,22 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Profile deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    #To capture ratings given by driver
+
+@api_view(['GET'])
+def user_ratings(request):
+    """
+    Fetch ratings for the authenticated user.
+    """
+    if not request.user.is_authenticated:
+        return Response({"error": "Authentication required."}, status=401)
+
+    try:
+        # Fetch all comments for the user
+        user_comments = UserComment.objects.filter(user=request.user.profile)
+        serializer = UserCommentSerializer(user_comments, many=True)
+        return Response(serializer.data, status=200)
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
 

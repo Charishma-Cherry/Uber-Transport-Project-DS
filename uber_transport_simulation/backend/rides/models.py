@@ -1,6 +1,11 @@
 from django.db import models
 from drivers.models import Driver
 from users.models import User
+import logging
+#from django.core.cache import cache
+
+logger = logging.getLogger(__name__)
+
 
 
 class Ride(models.Model):
@@ -39,6 +44,16 @@ class Ride(models.Model):
             self.driver_name = f"{self.driver.first_name} {self.driver.last_name}"
             self.driver_unique_id = self.driver.driver_id
         super().save(*args, **kwargs)
+
+#    def save(self, *args, **kwargs):
+#         super().save(*args, **kwargs)
+#         logger.debug(f"Saving ride {self.ride_id}")
+#         if self.customer:
+#             cache.delete(f"ride_history_{self.customer.id}")
+#             logger.debug(f"Invalidated cache for customer {self.customer.id}")
+#         if self.driver:
+#             cache.delete(f"driver_rides_{self.driver.id}")
+#             logger.debug(f"Invalidated cache for driver {self.driver.id}")
 
 
    def __str__(self):
