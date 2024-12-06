@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import AdminProfile
+from billing.models import Billing
+
 
 class AdminSerializer(serializers.ModelSerializer):
     # Add first_name and last_name to the User serializer
@@ -41,4 +43,33 @@ class AdminProfileSerializer(serializers.ModelSerializer):
         instance.user.save()  # Save the updated user
         instance.save()  # Save the profile
         return instance
+
+
+class BillingSerializer(serializers.ModelSerializer):
+    ride_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Billing
+        fields = [
+            'billing_id',
+            'date',
+            'pickup_time',
+            'distance_covered',
+            'total_amount',
+            'source_location',
+            'destination_location',
+            'driver_id',
+            'driver_name',
+            'customer_id',
+            'customer_name',
+            'ride_id',
+        ]
+
+    def get_ride_id(self, obj):
+        return obj.ride.ride_id if obj.ride else None
+
+
+
+
+
 

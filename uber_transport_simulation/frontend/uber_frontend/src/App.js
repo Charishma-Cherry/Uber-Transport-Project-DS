@@ -21,17 +21,14 @@ import AdminSignup from './components/Admin/AdminSignup';
 import AdminLogin from './components/Admin/AdminLogin';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminProfile from './components/Admin/AdminProfile';
+import ManageBills from './components/Admin/ManageBills';
+import StatisticsPage from './components/Admin/StatisticsPage';
 import AdminPrivateRoute from './components/Admin/AdminPrivateRoute';
 import ManageUsers from './components/Admin/ManageUsers';
 import ManageDrivers from './components/Admin/ManageDrivers';
 import ManageRides from './components/Admin/ManageRides';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
-
-
-
-
-
 
 
 function App() {
@@ -47,9 +44,12 @@ function App() {
         <Route path="/driver/ride-management" element={<RideManagement />} /> {/* New Route */}
         <Route path="/driver/completed-rides" element={<DriverRideHistory />} />
         <Route path="/driver/:driverId/ratings" element={<DriverRatings />} />
+        <Route path="/admin/manage-bills" element={<ManageBills />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<Signup />} />
         <Route path="/rate-user/:rideId" element={<RateUser />} />
+        <Route path="/admin/manage-bills" element={<ManageBills />} />
+        <Route path="/admin/stats" element={<StatisticsPage />} /> {/* New Route */}
         <Route path="/user/dashboard" element={
           <PrivateRoute>
             <Dashboard />

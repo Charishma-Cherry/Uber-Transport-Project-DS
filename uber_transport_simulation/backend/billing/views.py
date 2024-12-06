@@ -39,10 +39,6 @@ class BillingViewSet(viewsets.ModelViewSet):
        return Response(serializer.data, status=status.HTTP_200_OK)
   
      
-
-
-
-
    # (Admin) Show Statistics (Revenue/Day Area Wise)
    @action(detail=False, methods=['get'], url_path='statistics/revenue/day')
    def revenue_per_day_area(self, request):

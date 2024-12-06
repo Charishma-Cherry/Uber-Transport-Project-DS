@@ -49,6 +49,13 @@ export const endpoints = {
   ADMIN_LOGIN: '/admins/login/',
   ADMIN_PROFILE: '/admins/profile/',
   ADMIN_UPDATE_PROFILE: '/admins/update_profile/',
+  MANAGE_USERS: '/admins/manage-users/',
+  MANAGE_BILLS: '/bills/',                 // Endpoint for managing bills Admin
+  SPECIFIC_BILL: (billId) => `/bills/${billId}/`, // Endpoint for a specific bill Admin
+
+
+  // MANAGE_DRIVERS: '/admins/manage-drivers/',
+  // MANAGE_BILLS: '/admins/manage-bills/',
 
   // Managing users in admin panel
   ADMIN_LIST_CUSTOMERS: '/admins/list_customers/', // Fetch all users
