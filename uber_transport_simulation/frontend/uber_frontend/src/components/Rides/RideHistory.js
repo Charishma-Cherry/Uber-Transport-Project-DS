@@ -143,7 +143,21 @@ function RideHistory() {
       padding: '1rem',
       color: '#777',
     },
+    button: {
+      backgroundColor: '#4CAF50',
+      color: 'white',
+      border: 'none',
+      padding: '0.5rem 1rem',
+      cursor: 'pointer',
+      marginLeft: '1rem',
+      borderRadius: '5px',
+    },
   };
+
+  const handleViewBillClick = (rideId) => {
+    navigate(`/user/ride-bill/${rideId}`); // Navigate to the correct path
+  };
+
 
   return (
     <div style={styles.container}>
@@ -163,6 +177,7 @@ function RideHistory() {
               <th style={styles.tableHeader}>Fare</th>
               <th style={styles.tableHeader}>Status</th>
               <th style={styles.tableHeader}>Rating</th>
+              <th style={styles.tableHeader}>Action</th> {/* Added this column for action buttons */}
             </tr>
           </thead>
           <tbody>
@@ -194,24 +209,33 @@ function RideHistory() {
                     </span>
                   </td>
                   <td>
-                  {ride.status === 'completed' && !ratedRides[ride.ride_id] ? (
-                    <>
-                      <select
-                        value={ratings[ride.ride_id] || ''}
-                        onChange={(e) => handleRatingChange(ride.ride_id, e.target.value)} 
+                    {ride.status === 'completed' && !ratedRides[ride.ride_id] ? (
+                      <>
+                        <select
+                          value={ratings[ride.ride_id] || ''}
+                          onChange={(e) => handleRatingChange(ride.ride_id, e.target.value)}
+                        >
+                          <option value="">Rate</option>
+                          {[1, 2, 3, 4, 5].map(score => (
+                            <option key={score} value={score}>{score}</option>
+                          ))}
+                        </select>
+                        <button onClick={() => submitRating(ride.ride_id)}>Submit</button>
+                      </>
+                    ) : (
+                      ride.status === 'completed' ? 'Rating Submitted' : 'N/A'
+                    )}
+                  </td>
+                  <td style={styles.tableCell}>
+                    {ride.status === 'completed' && (
+                      <button
+                        style={styles.button}
+                        onClick={() => handleViewBillClick(ride.ride_id)}
                       >
-                        <option value="">Rate</option>
-                        {[1, 2, 3, 4, 5].map(score => (
-                          <option key={score} value={score}>{score}</option>
-                        ))}
-                      </select>
-                      <button onClick={() => submitRating(ride.ride_id)}>Submit</button>
-                    </>
-                  ) : (
-                     ride.status === 'completed' ? 'Rating Submitted' : 'N/A'
-                  )
-                    }
-                </td>
+                        View Bill
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))
             ) : (

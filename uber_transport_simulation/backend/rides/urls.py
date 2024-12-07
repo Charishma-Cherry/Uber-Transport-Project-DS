@@ -137,6 +137,11 @@ driver_rides = RideViewSet.as_view({
 ride_driver_completed_history = RideViewSet.as_view({
     'get': 'driver_completed_history',
 })
+
+# new route for the bill action
+ride_bill = RideViewSet.as_view({
+    'get': 'bill'
+})
  
 
 urlpatterns = [
@@ -156,4 +161,6 @@ urlpatterns = [
     path('<int:pk>/status/', update_status, name='update-status'),
     path('user/ride-history/', ride_user_history, name='user-ride-history'),
     path('rides/<int:pk>/rate', rate_ride, name='rate-ride'),
+    # New route for fetching the bill for a completed ride
+    path('rides/<int:pk>/bill/', ride_bill, name='ride-bill'),
 ]
