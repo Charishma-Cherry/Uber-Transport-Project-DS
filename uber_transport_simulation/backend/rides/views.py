@@ -336,6 +336,29 @@ class RideViewSet(viewsets.ModelViewSet):
                 {"error": "Failed to fetch driver completed ride history."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+    
+    # New action to retrieve the bill for a completed ride
+    @action(detail=True, methods=['get'])
+    def bill(self, request, pk=None):
+        try:
+            ride = self.get_object()
+            if ride.status != 'completed':
+                return Response({"detail": "Ride is not completed, no bill available."}, status=status.HTTP_400_BAD_REQUEST)
+            # Return the fare and other relevant details
+            bill_data = {
+                "ride_id": ride.ride_id,
+                "pickup_location": ride.pickup_location,
+                "dropoff_location": ride.dropoff_location,
+                "fare": ride.fare,
+                "distance": ride.distance,
+                "duration": ride.duration,
+                "pickup_datetime": ride.pickup_datetime,
+                "dropoff_datetime": ride.dropoff_datetime,
+                "driver_id":ride.driver_unique_id,
+            }
+            return Response(bill_data, status=status.HTTP_200_OK)
+        except Ride.DoesNotExist:
+            return Response({"detail": "Ride not found."}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PATCH'])
 def rate_ride(request, pk):
@@ -361,6 +384,8 @@ def rate_ride(request, pk):
         return Response({"message": "Driver rated successfully"}, status=status.HTTP_200_OK)
     except Ride.DoesNotExist:
         return Response({"error": "Ride not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    
 
 
 #---- Driver and rides using cache----# 

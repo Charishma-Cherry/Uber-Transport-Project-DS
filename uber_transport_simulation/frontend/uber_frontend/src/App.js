@@ -30,6 +30,7 @@ import ManageRides from './components/Admin/ManageRides';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RideHistory from './components/Rides/RideHistory';
 import AvailableRides from './components/Rides/AvailableRides';
+import BillPage from './components/Rides/BillPage';
 
 
 function App() {
@@ -112,14 +113,25 @@ function App() {
           />
 
 
-<Route
-  path="/user/available-rides"
-  element={
-    <PrivateRoute>
-      <AvailableRides />
-    </PrivateRoute>
-  }
-/>
+          <Route
+            path="/user/available-rides"
+            element={
+              <PrivateRoute>
+                <AvailableRides />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/user/ride-bill/:rideId"
+            element={
+              <PrivateRoute>
+                <BillPage />
+              </PrivateRoute>
+            }
+          />
+
+
 
       </Routes>
     </Router>

@@ -1,0 +1,124 @@
+/* Container for the Ride History Page */
+.ride-history-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .ride-history-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .loading-text {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+  }
+  
+  /* Table Styling */
+  .ride-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table-header {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .table-row {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table-cell {
+    padding: 1rem;
+    text-align: left;
+    word-wrap: break-word; /* Ensure text wraps inside cells */
+    max-width: 150px; /* Set max width for each cell to ensure they fit */
+    vertical-align: middle; /* Center content vertically */
+  }
+  
+  .alternate-row {
+    background-color: #f9f9f9;
+  }
+  
+  .row-hover:hover {
+    background-color: #e8f5e9;
+  }
+  
+  .no-records {
+    text-align: center;
+    padding: 1rem;
+    color: #777;
+  }
+  
+  /* Action Buttons Styling */
+  .table-cell-actions {
+    display: flex;
+    justify-content: center; /* Align buttons in the center */
+    align-items: center; /* Vertically align buttons */
+    gap: 1rem; /* Space out buttons */
+  }
+  
+  /* Button Styling */
+  .button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }
+  
+  .select-rating {
+    padding: 0.3rem 0.5rem;
+    font-size: 1rem;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .submit-rating {
+    background-color: #ff9800;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-rating:hover {
+    background-color: #e68900;
+  }
+  
+  .status {
+    font-weight: bold;
+    color: green;
+  }
+  
+  .status.pending {
+    color: red;
+  }
+  
