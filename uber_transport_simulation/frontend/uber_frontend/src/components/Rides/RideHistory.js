@@ -83,11 +83,6 @@ function RideHistory() {
   };
 
 
-
-
-
-
-
   // CSS-in-JS styles
   const styles = {
     container: {
@@ -98,6 +93,7 @@ function RideHistory() {
       borderRadius: '10px',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       fontFamily: 'Arial, sans-serif',
+      overflowX: 'auto',
     },
     title: {
       fontSize: '2rem',

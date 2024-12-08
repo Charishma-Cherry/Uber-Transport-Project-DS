@@ -11,6 +11,23 @@ const Profile = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const { user , logout } = useContext(AuthContext);
 
+  const states = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+    "Colorado", "Connecticut", "Delaware", "Florida",
+    "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana",
+    "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine",
+    "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska",
+    "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+    "New York", "North Carolina", "North Dakota",
+    "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+    "Rhode Island", "South Carolina", "South Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont",
+    "Virginia", "Washington", "West Virginia",
+    "Wisconsin", "Wyoming"
+  ];
+  
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -36,6 +53,17 @@ const Profile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    // Validate ZIP code
+  if (!/^\d{5}$/.test(profile.zip_code)) {
+    setError('ZIP code must be 5 digits');
+    return;
+  }
+
+  // Validate phone number
+  if (!/^\d{10}$/.test(profile.phone_number)) {
+    setError('Phone number must be 10 digits');
+    return;
+  }
     try {
       const formData = new FormData();
       
@@ -178,12 +206,19 @@ const Profile = () => {
         <Form.Group controlId="formState">
           <Form.Label>State</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Enter your state"
+            as="select"
             value={profile.state || ''}
             onChange={(e) => setProfile({ ...profile, state: e.target.value })}
-          />
-        </Form.Group>
+          >
+            <option value="">Select State</option>
+            {states.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </Form.Control>
+      </Form.Group>
+
 
         <Form.Group controlId="formZipCode">
           <Form.Label>Zip Code</Form.Label>

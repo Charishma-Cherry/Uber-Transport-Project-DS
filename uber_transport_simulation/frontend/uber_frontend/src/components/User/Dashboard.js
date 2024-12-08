@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
@@ -33,9 +31,6 @@ const Dashboard = () => {
             <div className="dashboard-buttons mb-5">
                 <Button as={Link} to="/user/book-ride" variant="success" className="mx-2">
                     Book a Ride
-                </Button>
-                <Button as={Link} to="/user/billing-history" variant="secondary" className="mx-2">
-                    Billing History
                 </Button>
                 <Button as={Link} to="/user/ride-history" variant="success" className="mx-2">
                     Ride History

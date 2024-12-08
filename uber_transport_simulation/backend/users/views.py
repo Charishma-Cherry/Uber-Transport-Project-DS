@@ -60,11 +60,14 @@ class UserViewSet(viewsets.ModelViewSet):
         print("Incoming user:", user)
         if user:
             token, _ = Token.objects.get_or_create(user=user)
+
+            user_profile = user.profile
             return Response({
                 'token': token.key,
                 'user': {
                     'id': user.id,
                     'username': user.username,
+                    'user_type': user_profile.user_type,
                 }
             })
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)

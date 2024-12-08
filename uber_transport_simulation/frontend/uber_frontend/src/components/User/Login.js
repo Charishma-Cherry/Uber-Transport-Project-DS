@@ -26,10 +26,17 @@ const Login = () => {
       const success = await login(username, password);
       if (success) {
         console.log('Login successful');
-        setMessage('Login successful!');
-        setTimeout(() => {
-          navigate('/user/dashboard');
-        }, 1000);
+        const userType = JSON.parse(localStorage.getItem('user'))?.user_type;
+        console.log("Checking user Type",userType);
+        if (userType === 'customer'){
+          setMessage('Login successful!');
+          setTimeout(() => {
+            navigate('/user/dashboard');
+          }, 1000);
+        }else {
+          setError('Unauthorized: Only customers can log in here.');
+          localStorage.clear();
+        }
       } else {
         setError('Invalid credentials');
       }
