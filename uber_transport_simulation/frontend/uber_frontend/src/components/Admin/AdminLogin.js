@@ -30,7 +30,7 @@ const AdminLogin = () => {
         setSuccessMessage('Login successful! Redirecting to dashboard...');
         setTimeout(() => {
           navigate('/admin/dashboard'); // Redirect to the admin dashboard after successful login
-        }, 2000);
+        }, 600);
       } else {
         setError('Invalid username or password.');
       }

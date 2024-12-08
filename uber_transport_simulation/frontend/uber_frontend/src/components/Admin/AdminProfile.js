@@ -2,11 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import api, { endpoints } from '../../services/api';
 import { Button, Form } from 'react-bootstrap';
+import './AdminProfile.css';
+
 
 const AdminProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const states = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California",
+    "Colorado", "Connecticut", "Delaware", "Florida",
+    "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana",
+    "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine",
+    "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska",
+    "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+    "New York", "North Carolina", "North Dakota",
+    "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+    "Rhode Island", "South Carolina", "South Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont",
+    "Virginia", "Washington", "West Virginia",
+    "Wisconsin", "Wyoming"
+  ];
   const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
@@ -34,6 +51,14 @@ const AdminProfile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if (!/^\d{5}$/.test(profile.zip_code)) {
+      alert('Zip code must be exactly 5 digits.');
+      return;
+    }
+    if (!/^\d{10}$/.test(profile.phone_number)) {
+      alert('Phone number must be exactly 10 digits.');
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append('first_name', profile.user_first_name || '');
@@ -144,11 +169,17 @@ const AdminProfile = () => {
         <Form.Group controlId="formState">
           <Form.Label>State</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Enter your state"
+            as="select"
             value={profile.state || ''}
             onChange={(e) => setProfile({ ...profile, state: e.target.value })}
-          />
+          >
+            <option value="">Select a state</option>
+            {states.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </Form.Control>
         </Form.Group>
 
         <Form.Group controlId="formZipCode">
