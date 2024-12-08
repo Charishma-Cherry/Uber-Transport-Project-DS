@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP # Or NodePort if you need it exposed externally
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: backend
+    tier: users # Label that corresponds to your users container
+  ports:
+    - protocol: TCP
+      port: 8001 # Externally exposed port
+      # targetPort: 8000  # Internal port of the users container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drivers-service
+spec:
+  selector:
+    app: backend
+    tier: drivers # Label that corresponds to your customers container
+  ports:
+    - protocol: TCP
+      port: 8002 # Externally exposed port
+      # targetPort: 8000  # Internal port of the customers container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rides-service
+spec:
+  selector:
+    app: backend
+    tier: rides # Label that corresponds to your container
+  ports:
+    - protocol: TCP
+      port: 8003 # Externally exposed port
+      # targetPort: 8000  # Internal port of the container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing-service
+spec:
+  selector:
+    app: backend
+    tier: billing # Label that corresponds to your container
+  ports:
+    - protocol: TCP
+      port: 8004 # Externally exposed port
+      # targetPort: 8000  # Internal port of the container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-panel-service
+spec:
+  selector:
+    app: backend
+    tier: admin-panel # Label that corresponds to your container
+  ports:
+    - protocol: TCP
+      port: 8005 # Externally exposed port
+      # targetPort: 8000  # Internal port of the container

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: users
+          image: charishmatamarana/uber_backend-users:latest
+          ports:
+            - containerPort: 8001 # Adjust to your Django port
+        - name: drivers
+          image: charishmatamarana/uber_backend-drivers:latest
+          ports:
+            - containerPort: 8002 # Adjust to your Django port
+        - name: rides
+          image: charishmatamarana/uber_backend-rides:latest
+          ports:
+            - containerPort: 8003 # Adjust to your Django port
+        - name: billing
+          image: charishmatamarana/uber_backend-billing:latest
+          ports:
+            - containerPort: 8004 # Adjust to your Django port
+        - name: admin-panel
+          image: charishmatamarana/uber_backend-admin_panel:latest
+          ports:
+            - containerPort: 8005 # Adjust to your Django port
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config

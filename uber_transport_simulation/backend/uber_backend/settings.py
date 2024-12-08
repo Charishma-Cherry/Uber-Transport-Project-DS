@@ -64,14 +64,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'uber_backend.wsgi.application'
 
-# Database
+# # Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'uber',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'mysql-service',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
