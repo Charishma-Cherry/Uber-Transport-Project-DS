@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import AdminViewSet,AdminBillingViewSet
+from .views import AdminViewSet,AdminBillingViewSet,AdminRideViewSet
 
 router = DefaultRouter()
 router.register(r'admins', AdminViewSet)
@@ -35,6 +35,8 @@ urlpatterns = [
     # path('admins/review_ride/<str:pk>/', AdminViewSet.as_view({'get': 'review_ride'}), name='review-ride'),
     path('admins/update_ride/<str:pk>/', AdminViewSet.as_view({'put': 'update_ride'}), name='update-ride'),
     path('admins/delete_ride/<str:pk>/', AdminViewSet.as_view({'delete': 'delete_ride'}), name='delete-ride'),
+    path('list_rides/', AdminRideViewSet.as_view({'get': 'list_rides'}), name='list-rides'),
+
 ]
 
 

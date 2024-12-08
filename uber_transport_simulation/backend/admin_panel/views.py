@@ -20,7 +20,7 @@ from django.core.validators import validate_email
 from rides.models import Ride
 from rides.serializers import RideSerializer
 import re
-from django.db.models import Q
+# from django.db.models import Q
 
 class AdminViewSet(viewsets.ModelViewSet):
     queryset = AdminProfile.objects.all()
@@ -399,6 +399,7 @@ class AdminViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def list_rides(self, request):
         try:
+            print("ride manage2")
 
             location_filter = request.GET.get('location', '')
             customer_filter = request.GET.get('customer','')
@@ -441,6 +442,7 @@ class AdminViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put', 'patch'], permission_classes=[IsAuthenticated])
     def update_ride(self, request, pk=None):
+        print("[DEBUG] Incoming data for ride update:", request.data)
         try:
             ride = Ride.objects.get(pk=pk)
             serializer = RideSerializer(ride, data=request.data, partial=True)
@@ -586,5 +588,50 @@ class AdminBillingViewSet(viewsets.ViewSet):
             return Response(rides_stats, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
+class AdminRideViewSet(viewsets.ViewSet):
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def list_rides(self, request):
+        """
+        List all rides with optional search filtering.
+        """
+        print("ride manage1")
+
+        try:
+            # Filters
+            location_filter = request.GET.get('location', '')
+            customer_filter = request.GET.get('customer', '')
+            driver_filter = request.GET.get('driver', '')
+
+            # Fetch rides with prefetch for event images
+            rides = Ride.objects.prefetch_related('event_images').all()
+            if location_filter:
+                rides = rides.filter(
+                    Q(pickup_location__icontains=location_filter) |
+                    Q(dropoff_location__icontains=location_filter)
+                )
+            if customer_filter:
+                rides = rides.filter(customer_name__icontains=customer_filter)
+            if driver_filter:
+                rides = rides.filter(
+                    Q(driver__first_name__icontains=driver_filter) |
+                    Q(driver__last_name__icontains=driver_filter)
+                )
+
+            # Debugging: Print ride data and associated images
+            for ride in rides:
+                print(f"[DEBUG] Ride ID: {ride.ride_id}")
+                print(f"[DEBUG] Pickup Location: {ride.pickup_location}")
+                print(f"[DEBUG] Dropoff Location: {ride.dropoff_location}")
+                print(f"[DEBUG] Associated Images Count: {ride.event_images.count()}")
+                for image in ride.ride_images.all():
+                    print(f"[DEBUG] Image URL: {image.image.url}")
+
+            # Serialize and return rides
+            serializer = RideSerializer(rides, many=True)
+            # print(f"[DEBUG] Serialized Rides Data: {serializer.data}")
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"[ERROR] list_rides Exception: {e}")
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)      
    

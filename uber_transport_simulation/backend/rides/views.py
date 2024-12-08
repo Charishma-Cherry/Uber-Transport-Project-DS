@@ -18,6 +18,13 @@ from .producer import send_message
 from drivers.models import Driver  # Import the Driver model
 from rest_framework.decorators import api_view
 #from django.core.cache import cache
+from .models import Ride, RideImage
+from .serializers import RideImageSerializer
+from rest_framework.views import APIView
+from rest_framework import status, permissions
+from rest_framework.parsers import MultiPartParser
+
+
 
 
 # Get an instance of a logger
@@ -360,6 +367,45 @@ class RideViewSet(viewsets.ModelViewSet):
         except Ride.DoesNotExist:
             return Response({"detail": "Ride not found."}, status=status.HTTP_404_NOT_FOUND)
 
+
+    @action(detail=True, methods=['post'], url_path='upload-images', parser_classes=[MultiPartParser])
+    def upload_images(self, request, *args, **kwargs):
+        """
+        Handle file uploads for a ride.
+        """
+        try:
+            # Fetch the `pk` from the `self.kwargs`
+            ride_id = self.kwargs.get('pk')
+            print(f"[DEBUG] Ride ID from kwargs: {ride_id}")
+
+            # Fetch the ride instance using the correct primary key field
+            ride = Ride.objects.get(ride_id=ride_id)  # Adjusted to use `ride_id`
+            print(f"[DEBUG] Ride found with ride_id: {ride.ride_id}")
+
+            # Fetch the images from the request
+            images = request.FILES.getlist('images')
+            print(f"[DEBUG] Number of images received: {len(images)}")
+
+            # Save images to the database
+            uploaded_images = []
+            for image in images:
+                ride_image = RideImage.objects.create(ride=ride, image=image)
+                print(ride_image)
+                uploaded_images.append(ride_image.image.url)
+                print(f"[DEBUG] Uploaded Image: {ride_image.image.url}")
+
+            return Response({
+                'message': 'Images uploaded successfully',
+                'uploaded_images': uploaded_images
+            }, status=200)
+        except Ride.DoesNotExist:
+            print(f"[ERROR] Ride with ride_id {ride_id} not found.")
+            return Response({'error': 'Ride not found'}, status=404)
+        except Exception as e:
+            print(f"[ERROR] Exception during upload: {e}")
+            return Response({'error': str(e)}, status=500)
+
+
 @api_view(['PATCH'])
 def rate_ride(request, pk):
     """
@@ -385,8 +431,9 @@ def rate_ride(request, pk):
     except Ride.DoesNotExist:
         return Response({"error": "Ride not found"}, status=status.HTTP_404_NOT_FOUND)
     
-    
 
+
+    
 
 #---- Driver and rides using cache----# 
 

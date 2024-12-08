@@ -163,4 +163,5 @@ urlpatterns = [
     path('rides/<int:pk>/rate', rate_ride, name='rate-ride'),
     # New route for fetching the bill for a completed ride
     path('rides/<int:pk>/bill/', ride_bill, name='ride-bill'),
+    path('rides/<int:pk>/upload-images/', RideViewSet.as_view({'post': 'upload_images'}), name='upload-images'),
 ]

@@ -220,9 +220,9 @@ function DriverProfile() {
                         <p><strong>Phone:</strong> {driverData.phone_number}</p>
                         <p><strong>My ratings:</strong> {driverData.rating} ({driverData.num_ratings} reviews)</p>
                         <div className="button-container">
+                        <p><strong>My ratings:</strong> {driverData.rating} ({driverData.num_ratings} reviews)</p>
                             <button onClick={() => setIsEditing(true)}>Edit Profile</button>
                             <button onClick={() => navigate(`/driver/${driverId}/select-location`)}> Select Location</button>
-                            <button onClick={() => navigate(`/driver/${driverId}/ratings`)}>My Ratings</button>
                             <button onClick={handleDeleteProfile} className="delete-button">Delete Profile</button>
                         </div>
                     </>
@@ -241,3 +241,6 @@ function DriverProfile() {
 }
 
 export default DriverProfile;
+
+
+
