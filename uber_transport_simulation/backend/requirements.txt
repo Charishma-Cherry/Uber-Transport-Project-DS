@@ -20,9 +20,11 @@ scikit-learn==1.3.2               # Machine Learning library
 
 # # Database Driver 
 # psycopg2==2.9.6                   # PostgreSQL database driver
-# mysqlclient==2.1.3                # MySQL database driver
-
+mysqlclient              # MySQL database driver
+sqlparse
 
 kafka-python==2.0.2
 simplejson
 confluent-kafka
+django-extensions
+gunicorn

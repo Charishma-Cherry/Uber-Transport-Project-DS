@@ -2,13 +2,13 @@ from django.core.management.base import BaseCommand
 from confluent_kafka import Consumer, KafkaException, KafkaError
 
 class Command(BaseCommand):
-    help = 'Kafka Consumer for Driver App'
+    help = 'Kafka Consumer for user App'
 
     def handle(self, *args, **kwargs):
         # Kafka consumer configuration
         consumer_config = {
             'bootstrap.servers': 'kafka-service:9092',  # Kafka broker address
-            'group.id': 'driver_group',       # Consumer group ID
+            'group.id': 'user_group',       # Consumer group ID
             'auto.offset.reset': 'earliest',       # Start reading from the earliest message
         }
 
