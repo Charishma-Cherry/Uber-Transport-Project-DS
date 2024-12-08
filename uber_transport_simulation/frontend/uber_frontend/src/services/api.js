@@ -74,6 +74,8 @@ export const endpoints = {
   // ADMIN_REVIEW_RIDE: (rideId) => `/admins/review_ride/${rideId}/`, // View details of a specific ride
   ADMIN_UPDATE_RIDE: (rideId) => `/admins/update_ride/${rideId}/`, // Update a ride
   ADMIN_DELETE_RIDE: (rideId) => `/admins/delete_ride/${rideId}/`,
+  ADMIN_BILLING_LIST_RIDES: '/list_rides/', // Fetch all rides
+
 };
 
 // // Function to fetch driver-specific rides

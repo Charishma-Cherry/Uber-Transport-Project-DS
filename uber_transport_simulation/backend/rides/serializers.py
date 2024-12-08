@@ -68,14 +68,22 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from drivers.serializers import DriverSerializer  # Import the DriverSerializer
 from drivers.models import Driver
+from .models import RideImage
+
 
 User = get_user_model()
+
+class RideImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RideImage
+        fields = '__all__'
+
 
 class RideSerializer(serializers.ModelSerializer):
     driver = DriverSerializer(read_only=True)  # Add DriverSerializer to include full driver details
     driver_id = serializers.IntegerField(source='driver.id', read_only=True)  # For specific driver ID
     driver_name = serializers.CharField(source='driver.name', read_only=True)  # For specific driver name
-
+    ride_images = RideImageSerializer(many=True, read_only=True)
     class Meta:
         model = Ride
         fields = [
@@ -96,6 +104,7 @@ class RideSerializer(serializers.ModelSerializer):
             'fare',
             'passenger_count',
             'status',
+            'ride_images',   # Add event_images field
         ]
         read_only_fields = [
             'ride_id',
@@ -126,3 +135,7 @@ class RideSerializer(serializers.ModelSerializer):
         validated_data['status'] = 'requested'  # Assuming 'requested' is the initial status for new rides
 
         return super().create(validated_data)
+    
+    def get_images(self, obj):
+        return RideImageSerializer(obj.event_images.all(), many=True).data
+
