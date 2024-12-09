@@ -42,7 +42,7 @@ const AvailableRides = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await fetch(
-          `http://localhost:8000/api/drivers/?location_city=${encodeURIComponent(city)}`,
+          `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/drivers/?location_city=${encodeURIComponent(city)}`,
           {
             method: 'GET',
             headers: {
@@ -85,7 +85,7 @@ const AvailableRides = () => {
     const fetchPickupLocation = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8000/api/user/pickup-location/`, {
+        const response = await fetch(`http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/user/pickup-location/`, {
           method: 'GET',
           headers: {
             Authorization: `Token ${token}`,

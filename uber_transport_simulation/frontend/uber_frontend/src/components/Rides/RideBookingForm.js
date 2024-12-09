@@ -76,7 +76,7 @@ function RideBookingForm() {
 
 
    // Make API call to get the base fare
-   const response = await axios.post('http://localhost:8000/api/predict_fare/', {
+   const response = await axios.post('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/predict_fare/', {
      ...requiredtimefields,
      distance_miles: parseFloat(ride.distance.split(' ')[0]),
      passenger_count: ride.passenger_count,
@@ -113,7 +113,7 @@ function RideBookingForm() {
  }
 };
      // Replace with your fare estimation API endpoint
- //     const response = await axios.post('http://localhost:8000/api/predict_fare/', {
+ //     const response = await axios.post('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/predict_fare/', {
  //       ...requiredtimefeilds,
  //       distance_miles: parseFloat(ride.distance.split(' ')[0]),
  //       passenger_count: ride.passenger_count,
@@ -174,7 +174,7 @@ function RideBookingForm() {
 
    console.log('Payload:', rideData);
    try {
-     const response = await axios.post('http://localhost:8000/api/rides/', rideData, {
+     const response = await axios.post('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/', rideData, {
        headers: { 'Authorization': `Token ${token}` },
      });
 

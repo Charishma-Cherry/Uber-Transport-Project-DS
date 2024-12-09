@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BACKEND_HOST_NAME = 'http://localhost:8000/';
+export const BACKEND_HOST_NAME = 'http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/';
 
 // Define the base URL for the API, using an environment variable or defaulting to localhost
 const API_URL = process.env.REACT_APP_API_URL || BACKEND_HOST_NAME;

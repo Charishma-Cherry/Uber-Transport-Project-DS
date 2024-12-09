@@ -10,7 +10,9 @@ SECRET_KEY = 'django-insecure-v@$2mne)t77ak6k2vf=v%_m@x1uvd3ye#uq#hv_rd^+*ds9lq3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -114,14 +116,16 @@ STATIC_URL = 'static/'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React frontend
-    "http://127.0.0.1:3000",  # Alternative localhost
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",  # React frontend
+#     "http://127.0.0.1:3000",  # Alternative localhost
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
 
 
 # Allow all headers from the frontend

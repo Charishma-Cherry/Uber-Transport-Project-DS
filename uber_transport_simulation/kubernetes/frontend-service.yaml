@@ -8,6 +8,6 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80 # Adjust to match Django container's port
-  type: ClusterIP # Or NodePort if you need it exposed externally\
+      targetPort: 80
+  type: LoadBalancer
 
