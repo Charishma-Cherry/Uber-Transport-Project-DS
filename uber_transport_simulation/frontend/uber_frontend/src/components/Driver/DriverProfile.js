@@ -218,7 +218,7 @@ function DriverProfile() {
                         <p><strong>Address:</strong> {driverData.address}, {driverData.city}, {driverData.state}, {driverData.zip_code}</p>
                         <p><strong>Car:</strong> {driverData.car_name} - {driverData.car_number}</p>
                         <p><strong>Phone:</strong> {driverData.phone_number}</p>
-                        <p><strong>My ratings:</strong> {driverData.rating} ({driverData.num_ratings} reviews)</p>
+                        {/* <p><strong>My ratings:</strong> {driverData.rating} ({driverData.num_ratings} reviews)</p> */}
                         <div className="button-container">
                         <p><strong>My ratings:</strong> {driverData.rating} ({driverData.num_ratings} reviews)</p>
                             <button onClick={() => setIsEditing(true)}>Edit Profile</button>

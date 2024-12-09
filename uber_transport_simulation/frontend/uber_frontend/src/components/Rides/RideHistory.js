@@ -16,7 +16,7 @@
 // // //       const token = localStorage.getItem('token'); // Fetch token for authentication
 
 // // //       try {
-// // //         const response = await axios.get('http://localhost:8000/api/user/ride-history/', {
+// // //         const response = await axios.get('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/user/ride-history/', {
 // // //           headers: { Authorization: `Token ${token}` },
 // // //         });
 // // //         setRideHistory(response.data); // Assuming response data is an array of ride objects
@@ -63,7 +63,7 @@
   
 // // //     try {
 // // //       console.log('Submitting rating for driver ID:', ride.driver_unique_id);
-// // //       const response = await axios.patch(`http://localhost:8000/api/rides/${rideId}/rate`, {
+// // //       const response = await axios.patch(`http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/rate`, {
 // // //         rating: ratings[rideId],
 // // //         driverId: ride.driver_unique_id  // Ensure this data is sent if needed by the backend
 // // //       }, {
@@ -272,7 +272,7 @@
 // //       const token = localStorage.getItem('token'); // Fetch token for authentication
 
 // //       try {
-// //         const response = await axios.get('http://localhost:8000/api/user/ride-history/', {
+// //         const response = await axios.get('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/user/ride-history/', {
 // //           headers: { Authorization: `Token ${token}` },
 // //         });
 // //         setRideHistory(response.data); // Assuming response data is an array of ride objects
@@ -318,7 +318,7 @@
 // //     try {
 // //       console.log('Submitting rating for driver ID:', ride.driver_unique_id);
 // //       const response = await axios.patch(
-// //         `http://localhost:8000/api/rides/${rideId}/rate`,
+// //         `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/rate`,
 // //         {
 // //           rating: ratings[rideId],
 // //           driverId: ride.driver_unique_id, // Ensure this data is sent if needed by the backend
@@ -359,7 +359,7 @@
 // //     try {
 // //       const token = localStorage.getItem('token');
 // //       const response = await axios.post(
-// //         `http://localhost:8000/api/rides/${rideId}/upload-images/`,
+// //         `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/upload-images/`,
 // //         formData,
 // //         {
 // //           headers: {
@@ -533,7 +533,7 @@
 //       const token = localStorage.getItem('token');
 
 //       try {
-//         const response = await axios.get('http://localhost:8000/api/user/ride-history/', {
+//         const response = await axios.get('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/user/ride-history/', {
 //           headers: { Authorization: `Token ${token}` },
 //         });
 //         setRideHistory(response.data);
@@ -575,7 +575,7 @@
 //     try {
 //       const token = localStorage.getItem('token');
 //       const response = await axios.post(
-//         `http://localhost:8000/api/rides/${rideId}/upload-images/`,
+//         `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/upload-images/`,
 //         formData,
 //         {
 //           headers: {
@@ -620,7 +620,7 @@
 
 //     try {
 //       const response = await axios.patch(
-//         `http://localhost:8000/api/rides/${rideId}/rate`,
+//         `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/rate`,
 //         { rating: ratings[rideId], driverId: ride.driver_unique_id },
 //         { headers: { Authorization: `Token ${token}` } }
 //       );
@@ -805,7 +805,7 @@ function RideHistory() {
       const token = localStorage.getItem('token');
 
       try {
-        const response = await axios.get('http://localhost:8000/api/user/ride-history/', {
+        const response = await axios.get('http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/user/ride-history/', {
           headers: { Authorization: `Token ${token}` },
         });
         setRideHistory(response.data);
@@ -846,7 +846,7 @@ function RideHistory() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:8000/api/rides/${rideId}/upload-images/`,
+        `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/upload-images/`,
         formData,
         {
           headers: {
@@ -885,7 +885,7 @@ function RideHistory() {
 
     try {
       await axios.patch(
-        `http://localhost:8000/api/rides/${rideId}/rate`,
+        `http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/rides/${rideId}/rate`,
         {
           rating: ratings[rideId],
           driverId: ride.driver_unique_id,

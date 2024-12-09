@@ -88,7 +88,7 @@ const DriverLocationSelection = () => {
       .join(", ");
 
     try {
-      const response = await fetch("http://localhost:8000/api/drivers/update_location/", {
+      const response = await fetch("http://a6ac407d2c9d54019a251beac9ed345e-1972116898.us-west-2.elb.amazonaws.com:8000/api/drivers/update_location/", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

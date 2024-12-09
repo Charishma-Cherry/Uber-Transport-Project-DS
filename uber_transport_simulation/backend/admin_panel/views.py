@@ -12,7 +12,6 @@ from users.serializers import UserSerializer, UserProfileSerializer
 from billing.models import Billing
 from billing.serializers import BillingSerializer
 from django.db.models import Sum, Count
-
 from django.core.exceptions import ValidationError
 from drivers.models import Driver
 from drivers.serializers import DriverSerializer, DriverProfileSerializer,UserSerializer
@@ -20,7 +19,7 @@ from django.core.validators import validate_email
 from rides.models import Ride
 from rides.serializers import RideSerializer
 import re
-# from django.db.models import Q
+from django.db.models import Q
 
 class AdminViewSet(viewsets.ModelViewSet):
     queryset = AdminProfile.objects.all()
@@ -399,8 +398,6 @@ class AdminViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def list_rides(self, request):
         try:
-            print("ride manage2")
-
             location_filter = request.GET.get('location', '')
             customer_filter = request.GET.get('customer','')
             driver_filter = request.GET.get('driver', '')
@@ -618,14 +615,14 @@ class AdminRideViewSet(viewsets.ViewSet):
                     Q(driver__last_name__icontains=driver_filter)
                 )
 
-            # Debugging: Print ride data and associated images
-            for ride in rides:
-                print(f"[DEBUG] Ride ID: {ride.ride_id}")
-                print(f"[DEBUG] Pickup Location: {ride.pickup_location}")
-                print(f"[DEBUG] Dropoff Location: {ride.dropoff_location}")
-                print(f"[DEBUG] Associated Images Count: {ride.event_images.count()}")
-                for image in ride.ride_images.all():
-                    print(f"[DEBUG] Image URL: {image.image.url}")
+            # # Debugging: Print ride data and associated images
+            # for ride in rides:
+            #     print(f"[DEBUG] Ride ID: {ride.ride_id}")
+            #     print(f"[DEBUG] Pickup Location: {ride.pickup_location}")
+            #     print(f"[DEBUG] Dropoff Location: {ride.dropoff_location}")
+            #     print(f"[DEBUG] Associated Images Count: {ride.event_images.count()}")
+            #     for image in ride.ride_images.all():
+            #         print(f"[DEBUG] Image URL: {image.image.url}")
 
             # Serialize and return rides
             serializer = RideSerializer(rides, many=True)
