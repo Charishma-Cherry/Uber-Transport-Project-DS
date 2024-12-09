@@ -231,7 +231,7 @@ function DriverProfile() {
             <div className="profile-image">
                 {profilePicture && (
                     <img
-                        src={typeof profilePicture === 'string' ? profilePicture : URL.createObjectURL(profilePicture)}
+                        src={typeof profilePicture === 'string' ? profilePicture?.replace(".com/media", ".com:8000/media") : URL.createObjectURL(profilePicture)}
                         alt="Profile"
                     />
                 )}

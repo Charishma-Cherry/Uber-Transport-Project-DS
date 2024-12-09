@@ -893,7 +893,7 @@ function DriverSignup() {
                 <>
                   {introductionMedia?.type.startsWith('image') && (
                     <img
-                      src={previewMedia}
+                      src={previewMedia?.replace(".com/media", ".com:8000/media")}
                       alt="Preview"
                       style={{ width: '100%', marginTop: '10px' }}
                     />

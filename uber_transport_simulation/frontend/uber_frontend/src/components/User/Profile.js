@@ -134,7 +134,7 @@ const Profile = () => {
       {profile && (
         <div className="profile-picture-container mb-3">
           <img 
-            src={profile.profile_picture} 
+            src={profile.profile_picture?.replace(".com/media", ".com:8000/media")} 
             alt="Profile" 
             style={{ width: '100px', height: '100px', borderRadius: '50%' }} 
           />
